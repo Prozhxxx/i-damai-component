@@ -1,0 +1,19 @@
+.menu-items{
+  .item-contaner{
+    width: 25vw;
+    float: left;
+    .content{
+      height: 25vw;
+      font-size: 13px;
+      img{
+        width: 20px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+  &::after{
+    content: '';
+    clear: both;
+    display: block;
+  }
+}
