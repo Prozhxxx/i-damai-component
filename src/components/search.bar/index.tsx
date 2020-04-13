@@ -3,12 +3,6 @@ import './index.scss';
 import NetworkCity from "../../network/NetworkCity";
 
 class SearchBar extends React.Component<any, any>{
-    componentDidMount() {
-        NetworkCity.cityList().then(data => {
-            console.log(data);
-        })
-    }
-
     render(){
         return (
             <div className="search-bar flex-middle-x">

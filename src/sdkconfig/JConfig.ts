@@ -1,4 +1,5 @@
 import NetworkCity from './NetworkCity';
+import NetworkPerformance from './NetworkPerformance';
 
 const DEFAULT_NETWORK_CONFIG = {
   precook: (_) => _.data,
@@ -12,10 +13,17 @@ const DEFAULT_NETWORK_CONFIG = {
   useParams: [],
   useHeaders: [],
   useBodyData: [],
-  rule: [0, 1, 2]
+  rule: [0, 1, 2],
+  encryption: {
+    required: () => true,
+    paramsInterceptor: (params, self) => {
+      return ({...params, ...self.pickInjectParams()});
+    }
+  },
 };
 
 export default {
   NetworkCity,
+  NetworkPerformance,
   DEFAULT_NETWORK_CONFIG
 }

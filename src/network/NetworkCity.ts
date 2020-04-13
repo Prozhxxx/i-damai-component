@@ -1,8 +1,7 @@
-import {JNetworkWorker} from 'jbzfilmsdk';
 import NetworkConfig from '../config/NetworkConfig'
-import { revealNetwork } from './NetworkWorker'
+import NetworkWorker, { revealNetwork } from './NetworkWorker'
 
-class NetworkCity extends JNetworkWorker{
+class NetworkCity extends NetworkWorker{
 }
 
 export default new (revealNetwork(NetworkCity, 'NetworkCity'))(NetworkConfig.getNetworkConfig());

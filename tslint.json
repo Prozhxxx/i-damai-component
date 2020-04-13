@@ -1,0 +1,28 @@
+{
+  "extends": "tslint:recommended",
+  "rules": {
+    "quotemark": [true, "single", "jsx-double"],
+    "trailing-comma": [false],
+    "ordered-imports": false,
+    "variable-name": false,
+    "no-console": false,
+    "object-literal-sort-keys": false,
+    "one-line": false,
+    "member-ordering": false,
+    "no-empty": false,
+    "arrow-parens": false,
+    "array-type": false,
+    "no-trailing-whitespace": [true, "ignore-blank-lines"],
+    "max-classes-per-file": false
+  },
+  "jsRules": {
+    "max-line-length": {
+      "options": [120]
+    }
+  },
+  "linterOptions": {
+    "exclude": [
+      "src/**/home.svg.tsx"
+    ]
+  }
+}

@@ -6,45 +6,71 @@ module.exports = (neutrino) => {
     const merge = neutrino.config.merge;
     neutrino.options.root = __dirname;
     neutrino.use(reactComponents({
+        html: {
+            title: 'i-damai-component'
+        },
         components: 'app',
     }));
-    neutrino.config.resolve.extensions
-        .add('.tsx')
-        .add('.ts')
-        .end();
-    neutrino.config.module.rule('compile').set('test', /\.(mjs|jsx|js|tsx|ts)$/)
-    neutrino.config.module.rule('compile')
-        .use('babel')
-        .merge({
-            options:{
-                presets: ['@babel/preset-typescript']
-            }
-        });
-    neutrino.config.module.rule('style').oneOf('scss').before('modules')
-        .test(/\.(scss|sass)$/)
-        .include.add(path.resolve(__dirname, 'src')).add(path.resolve(__dirname, 'test'))
+
+    neutrino.config
+        .resolve
+        /**/    .alias
+        /**/        .set('@', path.resolve(__dirname, 'src'))
+        /**/    .end()
+        /**/    .extensions
+        /**/        .add('.tsx')
+        /**/        .add('.ts')
+        /**/    .end()
         .end()
-        // .use('extract')
-        // .loader(MiniCssExtractPlugin.loader)
-        // .end()
-        // https://webpack.js.org/plugins/mini-css-extract-plugin/
-        // This plugin should be used only on production builds without style-loader in the loaders chain
-        .use('style')
-        .loader('style-loader')
+        .module
+        /**/    .rule('compile')
+        /**/        .set('test', /\.(mjs|jsx|js|tsx|ts)$/)
+        /**/            .use('babel')
+        /**/                .merge({
+        /**/                    options: {
+            /**/                   presets: ['@babel/preset-typescript']
+            /**/                }
+        /**/                })
+        /**/            .end()
+        /**/    .end()
+        /**/    .rule('style')
+        /**/        .oneOf('scss')
+        /**/        .before('modules')
+        /**/            .test(/\.(scss|sass)$/)
+        /**/            .include
+        /**/                .add(path.resolve(__dirname, 'src')).add(path.resolve(__dirname, 'test'))
+        /**/            .end()
+        /**/ //.use('extract')
+        /**/ //.loader(MiniCssExtractPlugin.loader)
+        /**/ //.end()
+        /**/ //https://webpack.js.org/plugins/mini-css-extract-plugin/
+        /**/ //This plugin should be used only on production builds without style-loader in the loaders chain
+        /**/            .use('style')
+        /**/                .loader('style-loader')
+        /**/            .end()
+        /**/            .use('css')
+        /**/                .loader('css-loader')
+        /**/            .end()
+        /**/            .use('sass')
+        /**/                .loader('sass-loader')
+        /**/            .end()
+        /**/        .end()
+        /**/    .end()
+        /**/    .rule('image')
+        /**/        .use('url')
+        /**/            .merge({
+        /**/                options: {
+            /**/                fallback: {
+                /**/                loader: 'file-loader',
+                /**/            },
+            /**/                esModule: false,
+            /**/            }
+        /**/            })
+        /**/        .end()
+        /**/    .end()
         .end()
-        .use('css')
-        .loader('css-loader')
+        .optimization
+        /**/    .set('minimize', true)
         .end()
-        .use('sass')
-        .loader('sass-loader')
-        .end()
-    neutrino.config.module.rule('image').use('url')
-        .merge({
-            options: {
-                fallback: {
-                    loader: 'file-loader',
-                },
-                esModule: false,
-            }
-        })
+
 };
