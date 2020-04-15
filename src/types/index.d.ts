@@ -1,3 +1,5 @@
+declare module '*.scss';
+declare module '*.css';
 interface CategoryModel {
     codeId: string;
     parentId: string;

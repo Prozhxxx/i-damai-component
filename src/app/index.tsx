@@ -1,5 +1,6 @@
 import React from 'react';
 import HomeView from '../views/home.view';
+import PerformanceDetailView from '../views/performance.detail.view';
 import {HashRouter as Router, Switch, Route} from 'react-router-dom';
 import './index.scss';
 import 'cola.css/dist/index.min.css';
@@ -30,6 +31,9 @@ class App extends React.Component<any, any>{
                     <Switch>
                         <Route exact path="/">
                             <HomeView/>
+                        </Route>
+                        <Route exact path="/performance-detail">
+                            <PerformanceDetailView/>
                         </Route>
                     </Switch>
                 </Router>

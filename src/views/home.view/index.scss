@@ -1,7 +1,7 @@
 @import "assets/constant";
 .home-view{
   .performance-name{
-    height: 40px;
+    max-height: 40px;
     line-height: 20px;
     font-size: 15px;
     overflow: hidden;
@@ -15,6 +15,8 @@
   }
   .piece-area{
     margin: 0 10px;
+    margin-top: 15px;
+    border-top: 1px $seg-color solid;
     .hot-container{
       overflow: auto;
       .hot-item{
@@ -33,21 +35,16 @@
         .name{
           margin: 5px 0;
         }
-        .price{
-          font-size: 12px;
-          color: $tc-2;
-          .number{
-            font-size: 16px;
-            color: $theme-color
-          }
-        }
       }
     }
     .recommend-container{
       .recommend-item{
-        margin-top: 20px;
+        padding: 10px 0;
+        border-top: 1px $seg-color solid;
         &:first-child{
+          border-top: none;
           margin-top: 0;
+          padding-top: 0;
         }
         .photo-wrapper{
           width: 25vw;
@@ -61,15 +58,30 @@
           }
         }
         .content-wrapper{
+          justify-content: center;
           .name{
             margin-right: 0 10px;
           }
-          .show-date{
+          .show-date, .show-venue{
             font-size: 13px;
             color: $tc-2;
+            min-height: 23px;
+            line-height: 23px;
+          }
+          .price{
+            margin-top: 5px;
           }
         }
       }
+    }
+  }
+
+  .price-label{
+    font-size: 12px;
+    color: $tc-2;
+    .number{
+      font-size: 16px;
+      color: $theme-color
     }
   }
 }

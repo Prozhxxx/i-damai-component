@@ -3,11 +3,13 @@ import SearchBar from "@/components/search.bar";
 // import Swiper from "@/components/swiper";
 import MenuItems from "@/components/menu.items"
 import NetworkPerformance from "@/network/NetworkPerformance";
-import './index.scss'
 import UnitTool from "@/tool/UnitTool";
+import DateTool from "@/tool/DateTool";
+import {withRouter, RouteComponentProps} from 'react-router';
+import './index.scss'
 const cityId = 110100
 
-class Index extends React.Component<any, {
+class HomeView extends React.Component<RouteComponentProps, {
     categoryList: CategoryModel[],
     hotList: PerformanceModel[],
     recommendList: PerformanceModel[]
@@ -60,6 +62,14 @@ class Index extends React.Component<any, {
         })
     }
 
+    renderPriceLabel(price, className='') {
+        return (
+            <div className={`price-label ellipsis-text ${className}`}><span
+                className="number">￥{price}</span>起
+            </div>
+        )
+    }
+
     renderHotPiece(){
         const {hotList} = this.state;
         const hotItemList = hotList.map(performance => {
@@ -67,7 +77,7 @@ class Index extends React.Component<any, {
                 <div className="hot-item" key={performance.projectId}>
                     <img className="photo" src={performance.showPic} alt=""/>
                     <div className="name performance-name">{performance.projectName}</div>
-                    <div className="price ellipsis-text"><span className="number">￥{UnitTool.formatPriceByFen(performance.minPrice)}</span>起</div>
+                    {this.renderPriceLabel(UnitTool.formatPriceByFen(performance.minPrice))}
                 </div>
             )
         })
@@ -81,19 +91,36 @@ class Index extends React.Component<any, {
         )
     }
 
+    onClickRecommendItem(performance){
+        const {history} = this.props;
+        history.push({
+            pathname: '/performance-detail',
+            hash: {
+                projectId: performance.projectId
+            }
+        });
+    }
+
     renderRecommendPiece(){
         const {recommendList} = this.state;
+        const {onClickRecommendItem} = this;
         const recommendItemList = recommendList.map(performance => {
+            const showStartTime = DateTool.dateStringFromTimeInterval(performance.showStartTime*0.001, 'yyyy.MM.dd');
+            const showEndTime = DateTool.dateStringFromTimeInterval(performance.showEndTime*0.001, 'yyyy.MM.dd');
             return (
-                <div className="recommend-item flex-x" key={performance.projectId}>
+                <div className="recommend-item flex-x" key={performance.projectId} onClick={onClickRecommendItem.bind(this, performance)}>
                     <div className="photo-wrapper ellipsis-text">
                         <img className="photo" src={performance.showPic} alt=""/>
                     </div>
-                    <div className="content-wrapper">
+                    <div className="content-wrapper flex-y">
                         <div className="name performance-name">
                             {performance.projectName}
                         </div>
-                        <div className="show-date"><span>{performance.showStartTime}</span></div>
+                        <div className="show-date"><span>{showStartTime}-{showEndTime}</span></div>
+                        <div className="show-venue">
+                            {performance.venueName}
+                        </div>
+                        {this.renderPriceLabel(UnitTool.formatPriceByFen(performance.minPrice),'price')}
                     </div>
                 </div>
             )
@@ -124,4 +151,4 @@ class Index extends React.Component<any, {
     }
 }
 
-export default Index;
+export default withRouter(HomeView);

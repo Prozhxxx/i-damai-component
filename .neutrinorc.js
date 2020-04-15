@@ -7,7 +7,12 @@ module.exports = (neutrino) => {
     neutrino.options.root = __dirname;
     neutrino.use(reactComponents({
         html: {
-            title: 'i-damai-component'
+            // inject: false,
+            template: require('html-webpack-template'),
+            title: 'i-damai-component',
+            scripts: [
+                '//at.alicdn.com/t/font_1747033_87pno47nfnp.js'
+            ],
         },
         components: 'app',
     }));

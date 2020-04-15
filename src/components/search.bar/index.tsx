@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import NetworkCity from "../../network/NetworkCity";
+import FontIcon from "@/components/font.icon";
 
 class SearchBar extends React.Component<any, any>{
     render(){
@@ -8,9 +8,10 @@ class SearchBar extends React.Component<any, any>{
             <div className="search-bar flex-middle-x">
                 <div className="addr-item flex-center-x">
                     <div className="title">上海</div>
-                    <img src="" alt=""/>
+                    <FontIcon className="icon" icon="iconxiala"/>
                 </div>
                 <div className="search-item flex-center-x">
+                    <FontIcon className="icon" icon="iconGroup-"/>
                     <input className="input" type="text" placeholder="搜索"/>
                 </div>
             </div>
