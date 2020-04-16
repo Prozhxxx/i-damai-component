@@ -11,13 +11,17 @@ module.exports = (neutrino) => {
             template: require('html-webpack-template'),
             title: 'i-damai-component',
             scripts: [
-                '//at.alicdn.com/t/font_1747033_87pno47nfnp.js'
+                '//at.alicdn.com/t/font_1747033_fl2h07obrpq.js'
             ],
         },
         components: 'app',
     }));
 
     neutrino.config
+        .devServer
+        /* not refresh page during HMR */
+        /**/    .set('hotOnly', false)
+        .end()
         .resolve
         /**/    .alias
         /**/        .set('@', path.resolve(__dirname, 'src'))

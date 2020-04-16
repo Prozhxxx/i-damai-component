@@ -6,6 +6,7 @@ import NetworkPerformance from "@/network/NetworkPerformance";
 import UnitTool from "@/tool/UnitTool";
 import DateTool from "@/tool/DateTool";
 import {withRouter, RouteComponentProps} from 'react-router';
+import {push} from "@/util/RouterManager";
 import './index.scss'
 const cityId = 110100
 
@@ -14,6 +15,7 @@ class HomeView extends React.Component<RouteComponentProps, {
     hotList: PerformanceModel[],
     recommendList: PerformanceModel[]
 }>{
+
     constructor(props) {
         super(props);
         this.state = {
@@ -80,7 +82,7 @@ class HomeView extends React.Component<RouteComponentProps, {
                     {this.renderPriceLabel(UnitTool.formatPriceByFen(performance.minPrice))}
                 </div>
             )
-        })
+        });
         return (
             <div className="piece-area">
                 <div className="piece-title title-1">热门排行</div>
@@ -93,11 +95,8 @@ class HomeView extends React.Component<RouteComponentProps, {
 
     onClickRecommendItem(performance){
         const {history} = this.props;
-        history.push({
-            pathname: '/performance-detail',
-            hash: {
-                projectId: performance.projectId
-            }
+        push(history,'/performance-detail', {
+            projectId: performance.projectId,
         });
     }
 
@@ -124,7 +123,7 @@ class HomeView extends React.Component<RouteComponentProps, {
                     </div>
                 </div>
             )
-        })
+        });
         return (
             <div className="piece-area">
                 <div className="piece-title title-1">为您推荐</div>
