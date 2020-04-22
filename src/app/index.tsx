@@ -1,27 +1,23 @@
 import React from 'react';
+import {connect} from "react-redux";
 import HomeView from '../views/home.view';
 import PerformanceDetailView from '../views/performance.detail.view';
 import {HashRouter as Router, Switch, Route} from 'react-router-dom';
 import './index.scss';
 import 'cola.css/dist/index.min.css';
-import NetworkCity from "../network/NetworkCity";
-import NetworkPerformance from "../network/NetworkPerformance";
+import LocationManager from "@/util/LocationManager";
 
 class App extends React.Component<any, any>{
+    constructor(props) {
+        super(props);
+    }
+
     async componentDidMount() {
-        // const city = (await NetworkCity.cityList()).find(_ => _.name === '北京市');
-        // const category = (await NetworkPerformance.categoryList())[0];
-        // const recommand = (await NetworkPerformance.recommendList(city.id))[0];
-        // const hotList = (await NetworkPerformance.hotList(city.id));
-        // const performanceDetail = (await NetworkPerformance.detail(recommand.projectId));
-        // const performanceList = (await NetworkPerformance.listByCategory({
-        //     cityId: city.id,
-        //     classifyId: category.codeId
-        // }));
-        // const performanceStatus = (await NetworkPerformance.theStatus(recommand.projectId));
-        // const perform = performanceDetail.damaiProjectPerformRespList[0];
-        // const sessionStatus = (await NetworkPerformance.sessionStatus(perform.damaiProjectPerform.performId));
-        // const ticketStatus = (await NetworkPerformance.ticketStatus(perform.damaiProjectPerformPricesList[0].priceId));
+        LocationManager.defaultManager().getLocation().then(data => {
+            console.log(data);
+        }, error => {
+            console.log(error);
+        });
     }
 
     render(){
@@ -42,4 +38,8 @@ class App extends React.Component<any, any>{
     }
 }
 
-export default App;
+export default connect(
+    state => ({
+        location: state['location']
+    })
+)(App);

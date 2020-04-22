@@ -8,7 +8,16 @@ export default class NetworkConfig {
     }
     let networkDelegate = {
       globalParams() {
+        const {location, locationCity, useLocationCity} = GlobalConstant.store.getState();
+        const {cityId} = locationCity;
+        const {hasLocation, ...coordinate} = location
         return {
+          cityId,
+          coordinate: coordinate,
+          location: {
+            cityId,
+            ...coordinate
+          }
         };
       },
       requestInterceptor(config) {

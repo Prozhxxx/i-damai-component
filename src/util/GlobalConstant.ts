@@ -1,3 +1,4 @@
+import {Store} from 'redux';
 const BASE_URL = 'https://beta.jinbaozheng.com/film-web/';
 
 class GlobalConstant {
@@ -5,6 +6,7 @@ class GlobalConstant {
   static baseUrl = BASE_URL;
   // 网络请求超时时间
   static timeout = 8888;
+  static store: Store = null;
 }
 
 export default GlobalConstant;

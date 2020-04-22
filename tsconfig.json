@@ -26,6 +26,7 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noEmit": true,
+    "exclude": ["AMap"],
     "paths": {
       "@/*": ["src/*"]
     }

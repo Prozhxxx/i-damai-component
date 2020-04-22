@@ -38,10 +38,13 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "@types/react-redux": "^7.1.7",
     "classnames": "^2.2.6",
     "cola.css": "^1.1.2",
     "html-webpack-template": "^6.2.0",
     "icemilk": "^1.0.10-beta3",
-    "jbzfilmsdk": "^1.1.4-beta0"
+    "jbzfilmsdk": "^1.1.4-beta0",
+    "react-redux": "^7.2.0",
+    "redux": "^4.0.5"
   }
 }

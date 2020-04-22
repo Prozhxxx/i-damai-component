@@ -12,9 +12,11 @@ export default {
     recommendList: {
         methodName: 'Y10004',
         params: {
-            cityId: true
+            cityId: true,
+            longitude: true,
+            latitude: true,
+
         },
-        book: ['cityId']
     },
     detail: {
         methodName: 'Y10005',

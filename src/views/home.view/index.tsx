@@ -8,7 +8,6 @@ import DateTool from "@/tool/DateTool";
 import {withRouter, RouteComponentProps} from 'react-router';
 import {push} from "@/util/RouterManager";
 import './index.scss'
-const cityId = 110100
 
 class HomeView extends React.Component<RouteComponentProps, {
     categoryList: CategoryModel[],
@@ -43,7 +42,7 @@ class HomeView extends React.Component<RouteComponentProps, {
     }
 
     async fetchHotPerformance(){
-        return NetworkPerformance.hotList(cityId).then((hotList) => {
+        return NetworkPerformance.useParams('cityId').hotList().then((hotList) => {
             this.setState({
                 hotList
             });
@@ -54,7 +53,7 @@ class HomeView extends React.Component<RouteComponentProps, {
     }
 
     async fetchRecommendPerformance(){
-        return NetworkPerformance.recommendList(cityId).then((recommendList) => {
+        return NetworkPerformance.useParams('location').recommendList().then((recommendList) => {
             this.setState({
                 recommendList
             });
@@ -62,6 +61,20 @@ class HomeView extends React.Component<RouteComponentProps, {
         }, error => {
             console.log(error);
         })
+    }
+
+    onClickRecommendItem(performance){
+        const {history} = this.props;
+        push(history,'/performance-detail', {
+            projectId: performance.projectId,
+        });
+    }
+
+    onClickHotItem(performance){
+        const {history} = this.props;
+        push(history,'/performance-detail', {
+            projectId: performance.projectId,
+        });
     }
 
     renderPriceLabel(price, className='') {
@@ -74,9 +87,10 @@ class HomeView extends React.Component<RouteComponentProps, {
 
     renderHotPiece(){
         const {hotList} = this.state;
+        const {onClickHotItem} = this;
         const hotItemList = hotList.map(performance => {
             return (
-                <div className="hot-item" key={performance.projectId}>
+                <div className="hot-item" key={performance.projectId} onClick={onClickHotItem.bind(this, performance)}>
                     <img className="photo" src={performance.showPic} alt=""/>
                     <div className="name performance-name">{performance.projectName}</div>
                     {this.renderPriceLabel(UnitTool.formatPriceByFen(performance.minPrice))}
@@ -91,13 +105,6 @@ class HomeView extends React.Component<RouteComponentProps, {
                 </div>
             </div>
         )
-    }
-
-    onClickRecommendItem(performance){
-        const {history} = this.props;
-        push(history,'/performance-detail', {
-            projectId: performance.projectId,
-        });
     }
 
     renderRecommendPiece(){

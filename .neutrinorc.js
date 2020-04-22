@@ -11,7 +11,8 @@ module.exports = (neutrino) => {
             template: require('html-webpack-template'),
             title: 'i-damai-component',
             scripts: [
-                '//at.alicdn.com/t/font_1747033_fl2h07obrpq.js'
+                '//at.alicdn.com/t/font_1747033_fl2h07obrpq.js',
+                '//webapi.amap.com/maps?v=1.4.15&key=8b8250081ef2281915a0564d108cf812',
             ],
         },
         components: 'app',
@@ -78,6 +79,7 @@ module.exports = (neutrino) => {
         /**/        .end()
         /**/    .end()
         .end()
+        .externals({AMap: 'AMap'})
         .optimization
         /**/    .set('minimize', true)
         .end()
