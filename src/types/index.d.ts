@@ -21,6 +21,7 @@ interface PerformanceModel {
     showStartTime: number
     showEndTime: number
     venueName: string
+    [extraProps: string]: any
 }
 
 declare module NodeJS {

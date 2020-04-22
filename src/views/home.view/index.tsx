@@ -2,6 +2,7 @@ import React from 'react';
 import SearchBar from "@/components/search.bar";
 // import Swiper from "@/components/swiper";
 import MenuItems from "@/components/menu.items"
+import PerformanceListCell from '@/components/performance.list.cell';
 import NetworkPerformance from "@/network/NetworkPerformance";
 import UnitTool from "@/tool/UnitTool";
 import DateTool from "@/tool/DateTool";
@@ -77,6 +78,13 @@ class HomeView extends React.Component<RouteComponentProps, {
         });
     }
 
+    onClickCategoryItem(category){
+        const {history} = this.props;
+        push(history,'/performance-list', {
+            codeId: category.codeId,
+        });
+    }
+
     renderPriceLabel(price, className='') {
         return (
             <div className={`price-label ellipsis-text ${className}`}><span
@@ -111,24 +119,8 @@ class HomeView extends React.Component<RouteComponentProps, {
         const {recommendList} = this.state;
         const {onClickRecommendItem} = this;
         const recommendItemList = recommendList.map(performance => {
-            const showStartTime = DateTool.dateStringFromTimeInterval(performance.showStartTime*0.001, 'yyyy.MM.dd');
-            const showEndTime = DateTool.dateStringFromTimeInterval(performance.showEndTime*0.001, 'yyyy.MM.dd');
             return (
-                <div className="recommend-item flex-x" key={performance.projectId} onClick={onClickRecommendItem.bind(this, performance)}>
-                    <div className="photo-wrapper ellipsis-text">
-                        <img className="photo" src={performance.showPic} alt=""/>
-                    </div>
-                    <div className="content-wrapper flex-y">
-                        <div className="name performance-name">
-                            {performance.projectName}
-                        </div>
-                        <div className="show-date"><span>{showStartTime}-{showEndTime}</span></div>
-                        <div className="show-venue">
-                            {performance.venueName}
-                        </div>
-                        {this.renderPriceLabel(UnitTool.formatPriceByFen(performance.minPrice),'price')}
-                    </div>
-                </div>
+                <PerformanceListCell key={performance.projectId} performance={performance} className="recommend-item"/>
             )
         });
         return (
@@ -148,7 +140,8 @@ class HomeView extends React.Component<RouteComponentProps, {
                 </SearchBar>
                 {/*<Swiper>*/}
                 {/*</Swiper>*/}
-                <MenuItems categoryList={this.state.categoryList}>
+                <MenuItems categoryList={this.state.categoryList}
+                           onClickItem={category => this.onClickCategoryItem(category)}>
                 </MenuItems>
                 {this.renderHotPiece()}
                 {this.renderRecommendPiece()}

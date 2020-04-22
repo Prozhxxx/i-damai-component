@@ -1,0 +1,47 @@
+@import "assets/constant";
+.performance-list-view{
+  .head-container{
+    position: sticky;
+    top: 0;
+    background: white;
+  }
+  .category-piece{
+    height: 45px;
+    line-height: 45px;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 0 10px;
+    .category-item{
+      margin-left: 17px;
+      &:first-child{
+        margin-left: 0;
+      }
+      &.active{
+        font-size: 17px;
+        color: $theme-color;
+      }
+    }
+  }
+  .filter-bar{
+    padding: 0 10px;
+    font-size: 14px;
+    color: $tc-2;
+    height: 40px;
+    box-shadow: 0 6px 4px -3px #f5f5f5;
+    .filter-item{
+      margin-left: 20px;
+      &:first-child{
+        margin-left: 0;
+      }
+      .icon{
+        margin-left: 2px;
+        fill: $tc-2;
+      }
+    }
+  }
+
+  .performance-list{
+    margin: 0 10px;
+    overflow-y: auto;
+  }
+}

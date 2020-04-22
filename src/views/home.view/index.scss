@@ -1,14 +1,5 @@
 @import "assets/constant";
 .home-view{
-  .performance-name{
-    max-height: 40px;
-    line-height: 20px;
-    font-size: 15px;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
   .piece-title{
     height: 50px;
     line-height: 50px;
@@ -39,38 +30,11 @@
     }
     .recommend-container{
       .recommend-item{
-        padding: 10px 0;
         border-top: 1px $seg-color solid;
         &:first-child{
           border-top: none;
           margin-top: 0;
           padding-top: 0;
-        }
-        .photo-wrapper{
-          width: 25vw;
-          height: 31.25vw;
-          margin-right: 10px;
-          flex-shrink: 0;
-          .photo{
-            width: 100%;
-            height: 100%;
-            border-radius: 4px;
-          }
-        }
-        .content-wrapper{
-          justify-content: center;
-          .name{
-            margin-right: 0 10px;
-          }
-          .show-date, .show-venue{
-            font-size: 13px;
-            color: $tc-2;
-            min-height: 23px;
-            line-height: 23px;
-          }
-          .price{
-            margin-top: 5px;
-          }
         }
       }
     }

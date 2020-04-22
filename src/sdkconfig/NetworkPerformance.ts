@@ -15,7 +15,6 @@ export default {
             cityId: true,
             longitude: true,
             latitude: true,
-
         },
     },
     detail: {

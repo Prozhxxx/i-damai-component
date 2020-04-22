@@ -11,7 +11,7 @@ module.exports = (neutrino) => {
             template: require('html-webpack-template'),
             title: 'i-damai-component',
             scripts: [
-                '//at.alicdn.com/t/font_1747033_fl2h07obrpq.js',
+                '//at.alicdn.com/t/font_1747033_h9izeypoksj.js',
                 '//webapi.amap.com/maps?v=1.4.15&key=8b8250081ef2281915a0564d108cf812',
             ],
         },
@@ -60,6 +60,26 @@ module.exports = (neutrino) => {
         /**/            .end()
         /**/            .use('css')
         /**/                .loader('css-loader')
+        /**/            .end()
+        /**/            .use('sass')
+        /**/                .loader('sass-loader')
+        /**/            .end()
+        /**/        .end()
+        /**/        .oneOf('scss-module')
+        /**/        .before('scss')
+        /**/            .test(/\.module\.(scss|sass)$/)
+        /**/            .include
+        /**/                .add(path.resolve(__dirname, 'src')).add(path.resolve(__dirname, 'test'))
+        /**/            .end()
+        /**/            .use('style')
+        /**/                .loader('style-loader')
+        /**/            .end()
+        /**/            .use('css')
+        /**/                .loader('css-loader')
+        /**/                .options({
+        /**/                    importLoaders: 0,
+        /**/                    modules: true
+        /**/                })
         /**/            .end()
         /**/            .use('sass')
         /**/                .loader('sass-loader')
