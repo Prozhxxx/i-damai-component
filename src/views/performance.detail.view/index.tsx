@@ -23,7 +23,7 @@ class PerformanceDetailView extends React.Component<any, {
     }
 
     async fetchPerformanceDetail(projectId){
-        return NetworkPerformance.detail(projectId).then(data => {
+        return NetworkPerformance.useParams('coordinate').detail(projectId).then(data => {
             console.log(data);
             this.setState({
                 performanceDetail: data

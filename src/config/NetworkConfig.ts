@@ -13,7 +13,7 @@ export default class NetworkConfig {
         const {hasLocation, ...coordinate} = location
         return {
           cityId,
-          coordinate: coordinate,
+          coordinate,
           location: {
             cityId,
             ...coordinate
@@ -21,6 +21,7 @@ export default class NetworkConfig {
         };
       },
       requestInterceptor(config) {
+        config.params = {cipher: config.params.cipher};
         return config;
       },
       responseInterceptor(response) {

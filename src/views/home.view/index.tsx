@@ -117,10 +117,12 @@ class HomeView extends React.Component<RouteComponentProps, {
 
     renderRecommendPiece(){
         const {recommendList} = this.state;
-        const {onClickRecommendItem} = this;
         const recommendItemList = recommendList.map(performance => {
             return (
-                <PerformanceListCell key={performance.projectId} performance={performance} className="recommend-item"/>
+                <PerformanceListCell key={performance.projectId}
+                                     performance={performance}
+                                     className="recommend-item"
+                                     onClick={performance => this.onClickRecommendItem(performance)}/>
             )
         });
         return (

@@ -9,7 +9,7 @@ export default function (props: {performance, className?, onClick?}) {
     const showStartTime = DateTool.dateStringFromTimeInterval(performance.showStartTime*0.001, 'yyyy.MM.dd');
     const showEndTime = DateTool.dateStringFromTimeInterval(performance.showEndTime*0.001, 'yyyy.MM.dd');
     return (
-        <div className={cn(style.performanceListCell, 'flex-x')} key={performance.projectId} onClick={e => onClick(performance)}>
+        <div className={cn(style.performanceListCell, 'flex-x', className)} key={performance.projectId} onClick={e => onClick(performance)}>
             <div className={cn(style.photoWrapper, 'ellipsis-text')}>
                 <img className={style.photo} src={performance.showPic} alt=""/>
             </div>
