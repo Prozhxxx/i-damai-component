@@ -64,7 +64,6 @@ class App extends React.Component<any, any>{
         }
         return (
             <div className="App">
-                <div><span>asd</span><span style={{marginLeft: '5px'}}>666</span></div>
                 <Router>
                     <Switch>
                         <Route exact path="/">
