@@ -1,13 +1,15 @@
 import React from 'react';
 import './index.scss';
 import FontIcon from "@/components/font.icon";
+import {connect} from "react-redux";
 
 class SearchBar extends React.Component<any, any>{
     render(){
+        const {userLocationCity} = this.props;
         return (
             <div className="search-bar flex-middle-x">
                 <div className="addr-item flex-center-x">
-                    <div className="title">上海</div>
+                    <div className="title">{userLocationCity.name}</div>
                     <FontIcon className="icon" icon="iconxiala"/>
                 </div>
                 <div className="search-item flex-center-x">
@@ -19,4 +21,8 @@ class SearchBar extends React.Component<any, any>{
     }
 }
 
-export default SearchBar;
+export default connect(
+    state => ({
+        userLocationCity: state['userLocationCity']
+    })
+)(SearchBar);

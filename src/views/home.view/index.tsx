@@ -5,7 +5,6 @@ import MenuItems from "@/components/menu.items"
 import PerformanceListCell from '@/components/performance.list.cell';
 import NetworkPerformance from "@/network/NetworkPerformance";
 import UnitTool from "@/tool/UnitTool";
-import DateTool from "@/tool/DateTool";
 import {withRouter, RouteComponentProps} from 'react-router';
 import {push} from "@/util/RouterManager";
 import './index.scss'

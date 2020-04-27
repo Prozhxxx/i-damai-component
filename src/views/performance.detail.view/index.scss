@@ -1,8 +1,8 @@
 @import "assets/constant";
+$bottom-bar-height: 50px;
 .performance-detail-view{
   background: $bg-color;
   .info-piece{
-    height: 300px;
     position: relative;
     background: white;
     .head{
@@ -44,20 +44,65 @@
         }
       }
     }
+    .session{
+      overflow: auto;
+      width: 100%;
+      .container{
+        white-space: nowrap;
+        width: auto;
+        display: inline-block;
+        padding: 0 15px;
+        .item-wrapper{
+          display: inline-flex;
+          height: 65px;
+          margin: 10px 0;
+          margin-left: 20px;
+          border-radius: 5px;
+          border: 1px solid #e7e7e7;
+          background: #f0f0f0;
+          &.active{
+            border: 1px solid black;
+            background: white;
+          }
+          &:first-child{
+            margin-left: 0;
+          }
+          text-align: center;
+          padding: 0 5px;
+          .title{
+            font-size: 15px;
+            color: $tc-1;
+            border-radius: 5px;
+          }
+          .subtitle{
+            font-size: 12px;
+            color: $tc-2;
+          }
+        }
+      }
+    }
     .message{
       font-size: 12px;
       color: $tc-2;
-      height: 45px;
-      line-height: 45px;
+      min-height: 45px;
       border-bottom: 1px solid $seg-color;
       margin: 0 15px;
-      .item{
-        width: 25vw;
-        text-align: center;
-      }
-      .icon{
-        width: 15px;
-        height: 15px;
+      .message-content{
+        flex-wrap: wrap;
+        padding: 5px 0;
+        .item{
+          height: 25px;
+          margin-left: 10px;
+          text-align: center;
+          &:first-child {
+            margin-left: 0;
+          }
+          .orange-icon{
+            width: 15px;
+            height: 15px;
+            margin-right: 3px;
+          }
+        }
       }
     }
     .date{
@@ -70,6 +115,12 @@
         font-size: 12px;
         color: $tc-2;
       }
+    }
+    .piece-content{
+      flex: 1;
+    }
+    .icon-wrapper{
+      height: 15px;
       .icon{
         width: 15px;
         height: 15px;
@@ -98,10 +149,47 @@
       }
     }
   }
-
   .detail-piece{
     margin-top: 8px;
-    height: 70px;
+    margin-bottom: $bottom-bar-height;
     background: white;
+    width: 100vw;
+    img {
+      /* Set width of image to maximum width of Card, height will follow aspect ratio */
+      width: 100%;
+      height: auto;
+    }
+  }
+  .bottom-piece{
+    position: fixed;
+    border-top: 1px solid $seg-color;
+    background: white;
+    height: $bottom-bar-height;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    .coll-btn{
+      width: 21vw;
+      text-align: center;
+      font-size: 12px;
+      color: $tc-3;
+      .icon{
+        fill: #0091f0;
+        width: 25px;
+        height: 25px;
+      }
+      .colled{
+        color: $theme-color;
+      }
+    }
+    .buy-btn{
+      flex: 1;
+      color: white;
+      margin: 5px 15px;
+      margin-left: 0;
+      background: $theme-color;
+      font-size: 14px;
+      border-radius: 3px;
+    }
   }
 }

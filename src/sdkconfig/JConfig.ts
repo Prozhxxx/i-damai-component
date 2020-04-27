@@ -1,4 +1,5 @@
 import NetworkCity from './NetworkCity';
+import NetworkMine from './NetworkMine';
 import NetworkPerformance from './NetworkPerformance';
 
 const DEFAULT_NETWORK_CONFIG = {
@@ -24,6 +25,7 @@ const DEFAULT_NETWORK_CONFIG = {
 
 export default {
   NetworkCity,
+  NetworkMine,
   NetworkPerformance,
   DEFAULT_NETWORK_CONFIG
 }

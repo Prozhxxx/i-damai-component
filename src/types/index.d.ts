@@ -10,19 +10,6 @@ interface CategoryModel {
     iconUrl: string;
 }
 
-interface PerformanceModel {
-    projectId: number
-    projectName: string
-    projectType: number
-    showPic: string
-    showTime: string
-    minPrice: number
-    maxPrice: number
-    showStartTime: number
-    showEndTime: number
-    venueName: string
-    [extraProps: string]: any
-}
 
 declare module NodeJS {
     interface Global {

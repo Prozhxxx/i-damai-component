@@ -4,16 +4,22 @@ import {getParams} from "@/util/RouterManager";
 import NetworkPerformance from '@/network/NetworkPerformance';
 import FontIcon from "@/components/font.icon";
 import UnitTool from "@/tool/UnitTool";
+import DateTool from "@/tool/DateTool";
+import cn from 'classnames';
 import './index.scss';
 
 class PerformanceDetailView extends React.Component<any, {
-    performanceDetail
+    performanceDetail: PerformanceDetailModel,
+    hadColled: boolean,
+    selectedSessionIndex: number
 }>{
 
     constructor(props) {
         super(props);
         this.state = {
-            performanceDetail: {}
+            performanceDetail: null,
+            hadColled: false,
+            selectedSessionIndex: 0
         }
     }
 
@@ -33,14 +39,56 @@ class PerformanceDetailView extends React.Component<any, {
         })
     }
 
+    onClickCollection(){
+        this.setState((state, props) => ({
+            hadColled: !state.hadColled
+        }))
+    }
+
+    onClickBuy(){
+    }
+
+    onClickSession(session, index){
+        this.setState({ selectedSessionIndex: index })
+    }
+
     renderInfoPiece(){
-        const {performanceDetail} = this.state;
-        if (!performanceDetail.damaiProjectDetail){
-            return null;
+        const {performanceDetail, selectedSessionIndex} = this.state;
+        if (!performanceDetail){
+            return null
         }
-        const {damaiProject} = performanceDetail;
+        const {damaiProject, damaiProjectDetail, damaiProjectPerformRespList} = performanceDetail;
         const minPrice = UnitTool.formatPriceByFen(performanceDetail.minPrice);
         const maxPrice = UnitTool.formatPriceByFen(performanceDetail.maxPrice);
+        let sessionList = null;
+        if (damaiProjectPerformRespList && damaiProjectPerformRespList.length > 1){
+            sessionList = (
+                <div className="session">
+                    <div className="container">
+                        {damaiProjectPerformRespList.map(({damaiProjectPerform}, i) => {
+                            const starTime = DateTool.dateStringFromTimeInterval(damaiProjectPerform.startTime*0.001, 'yyyy.MM.dd');
+                            const endTime = DateTool.dateStringFromTimeInterval(damaiProjectPerform.endTime*0.001, 'yyyy.MM.dd');
+                            let dateTime = `${starTime}-${endTime}`;
+                            if(starTime === endTime){
+                                dateTime = starTime
+                            }
+                            return (
+                                <div className={cn('item-wrapper flex-center-y', {active: selectedSessionIndex === i})}
+                                     key={damaiProjectPerform.performId}
+                                     onClick={e => this.onClickSession(damaiProjectPerform, i)}>
+                                    <div className="title">
+                                        {damaiProjectPerform.performName}
+                                    </div>
+                                    <div className="subtitle">
+                                        {dateTime}
+                                    </div>
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            )
+        }
         return (
             <div className="info-piece">
                 <div className="head">
@@ -57,20 +105,30 @@ class PerformanceDetailView extends React.Component<any, {
                         </div>
                     </div>
                 </div>
+                {sessionList}
                 <div className="message flex-middle-x">
-                    {['不支持退', '不支持选座', '不提供发票', '快递票'].map(_ => {
-                        return (
-                            <div className="item" key={_}>{_}</div>
-                        )
-                    })}
-                    <FontIcon icon="iconcl-icon-right" className="icon"/>
+                    <div className="piece-content message-content flex-middle-x">
+                        {['不支持退', '不支持选座', '不提供发票', '快递票'].map(_ => {
+                            return (
+                                <div className="item flex-middle-x" key={_}>
+                                    <FontIcon icon="icontishi" className="orange-icon"/>
+                                    <span className="ellipsis-text">{_}</span>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="icon-wrapper">
+                        <FontIcon icon="iconcl-icon-right" className="icon"/>
+                    </div>
                 </div>
                 <div className="date flex-middle-x">
-                    <div style={{flex: 1}}>
-                        <div>2020.01.11-2021.01.09</div>
-                        <div className="sub">约120分钟(以现场为准)</div>
+                    <div className="piece-content">
+                        <div>{damaiProjectDetail.showTime}</div>
+                        <div className="sub">以现场为准</div>
                     </div>
-                    <FontIcon icon="iconcl-icon-right" className="icon"/>
+                    <div className="icon-wrapper">
+                        <FontIcon icon="iconcl-icon-right" className="icon"/>
+                    </div>
                 </div>
             </div>
         )
@@ -78,11 +136,10 @@ class PerformanceDetailView extends React.Component<any, {
 
     renderAddressPiece(){
         const {performanceDetail} = this.state;
-        if (!performanceDetail.damaiProjectDetail){
+        if (!performanceDetail){
             return null;
         }
         const {damaiProject} = performanceDetail;
-        console.log(performanceDetail)
         return (
             <div className="address-piece flex-middle-x">
                 <div className="content">
@@ -105,13 +162,29 @@ class PerformanceDetailView extends React.Component<any, {
 
     renderDetailPiece(){
         const {performanceDetail} = this.state;
-        if (!performanceDetail.damaiProjectDetail){
+        if (!performanceDetail){
             return null;
         }
-        const {damaiProject} = performanceDetail;
+        const {damaiProjectDetail} = performanceDetail;
         return (
             <div className="detail-piece">
-                <div dangerouslySetInnerHTML={{ __html: damaiProject.showDetail }}>
+                <div dangerouslySetInnerHTML={{ __html: damaiProjectDetail.showDetail }}>
+                </div>
+            </div>
+        )
+    }
+
+    renderBottomPiece(){
+        const {hadColled} = this.state;
+        const {onClickCollection, onClickBuy} = this;
+        return (
+            <div className="bottom-piece flex-x">
+                <div className="coll-btn flex-center-y" onClick={onClickCollection.bind(this)}>
+                    <FontIcon icon={hadColled ? 'iconshoucang_tianchong': 'iconshoucang'} className="icon"/>
+                    <div className={cn({colled: hadColled})}>收藏</div>
+                </div>
+                <div className="buy-btn flex-center-x" onClick={onClickBuy.bind(this)}>
+                    <span>立即购买</span>
                 </div>
             </div>
         )
@@ -123,6 +196,7 @@ class PerformanceDetailView extends React.Component<any, {
                 {this.renderInfoPiece()}
                 {this.renderAddressPiece()}
                 {this.renderDetailPiece()}
+                {this.renderBottomPiece()}
             </div>
         )
     }
