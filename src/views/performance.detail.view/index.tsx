@@ -34,6 +34,30 @@ class PerformanceDetailView extends React.Component<any, {
             this.setState({
                 performanceDetail: data
             })
+            const damaiProjectPerformRespList = data.damaiProjectPerformRespList;
+            if (damaiProjectPerformRespList && damaiProjectPerformRespList.length > 0){
+                const [{damaiProjectPerform}] = damaiProjectPerformRespList;
+                return this.fetchSessionStatus(damaiProjectPerform.performId)
+            }
+            return data;
+        }, error => {
+            console.log(error);
+        })
+    }
+
+    async fetchPerformanceStatus(projectId){
+        return NetworkPerformance.theStatus(projectId).then(data => {
+            console.log(data);
+            return data;
+        }, error => {
+            console.log(error);
+        })
+    }
+
+    async fetchSessionStatus(performId){
+        return NetworkPerformance.sessionStatus(performId).then(data => {
+            console.log(data);
+            return data;
         }, error => {
             console.log(error);
         })

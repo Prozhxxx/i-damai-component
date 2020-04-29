@@ -8,8 +8,8 @@ export default class NetworkConfig {
     }
     let networkDelegate = {
       globalParams() {
-        const {location, locationCity, useLocationCity} = GlobalConstant.store.getState();
-        const {cityId} = locationCity;
+        const {site: {location, locationCity, userLocationCity}} = GlobalConstant.store.getState();
+        const {cityId} = userLocationCity;
         const {hasLocation, ...coordinate} = location
         return {
           cityId,

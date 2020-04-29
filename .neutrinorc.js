@@ -22,6 +22,7 @@ module.exports = (neutrino) => {
         .devServer
         /* not refresh page during HMR */
         /**/    .set('hotOnly', false)
+        /**/    .set('host', '0.0.0.0')
         .end()
         .resolve
         /**/    .alias

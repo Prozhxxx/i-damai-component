@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import {connect} from "react-redux";
 import HomeView from '../views/home.view';
 import PerformanceDetailView from '../views/performance.detail.view';
 import PerformanceListView from '../views/performance.list.view';
+import CityLayer from '@/components/city.layer';
 import {HashRouter as Router, Switch, Route} from 'react-router-dom';
 import LocationManager from "@/util/LocationManager";
 import GlobalConstant from "@/util/GlobalConstant";
@@ -11,12 +12,17 @@ import 'cola.css/dist/index.min.css';
 import './index.scss';
 
 
-class App extends React.Component<any, any>{
+class App extends React.Component<any, {
+    locationStatus: string,
+    locationCityStatus: string,
+    cityList: CityModel[],
+}>{
     constructor(props) {
         super(props);
         this.state = {
             locationStatus: 'resting',
             locationCityStatus: 'resting',
+            cityList: [],
         }
     }
 
@@ -55,28 +61,49 @@ class App extends React.Component<any, any>{
                 return setStatePromise( {locationCityStatus: 'failure'} )
             })
         });
+
+        this.fetchCityList();
+    }
+
+    async fetchCityList(){
+        return NetworkCity.cityList().then(cityList => {
+            this.setState({
+                cityList
+            });
+            return cityList;
+        }, error => {
+            console.log(error);
+        })
+    }
+
+
+    renderRouter(){
+        return (
+            <Router>
+                <Switch>
+                    <Route exact path="/">
+                        <HomeView/>
+                    </Route>
+                    <Route exact path="/performance-detail">
+                        <PerformanceDetailView/>
+                    </Route>
+                    <Route exact path="/performance-list">
+                        <PerformanceListView/>
+                    </Route>
+                </Switch>
+            </Router>
+        )
     }
 
     render(){
-        const {locationCityStatus} = this.state;
+        const {locationCityStatus, cityList} = this.state;
+        const {isShowCityLayer} = this.props;
         if (locationCityStatus !== 'success' && locationCityStatus !== 'failure'){
             return null;
         }
         return (
             <div className="App">
-                <Router>
-                    <Switch>
-                        <Route exact path="/">
-                            <HomeView/>
-                        </Route>
-                        <Route exact path="/performance-detail">
-                            <PerformanceDetailView/>
-                        </Route>
-                        <Route exact path="/performance-list">
-                            <PerformanceListView/>
-                        </Route>
-                    </Switch>
-                </Router>
+                { isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter() }
             </div>
         );
     }
@@ -84,6 +111,6 @@ class App extends React.Component<any, any>{
 
 export default connect(
     state => ({
-        location: state['location']
-    })
+        isShowCityLayer: state['ui']['layer']['cityLayer'],
+    }),
 )(App);

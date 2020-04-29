@@ -104,10 +104,10 @@ interface PerformanceSessionPriceModel{
 interface PerformanceDetailModel {
     damaiProject: PerformanceDetailCommonModel
     damaiProjectDetail: PerformanceDetailInfoModel
-    damaiProjectPerformRespList?: [{
+    damaiProjectPerformRespList?: ({
         damaiProjectPerform: PerformanceSessionCommonModel,
         damaiProjectPerformPricesList?: PerformanceSessionPriceModel[]
-    }]
+    })[]
     distance: number;
     maxPrice: number;
     minPrice: number;

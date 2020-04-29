@@ -2,6 +2,8 @@ import {Action} from "redux";
 const UPDATE_LOCATION = 'UPDATE_LOCATION';
 const UPDATE_LOCATION_CITY = 'UPDATE_LOCATION_CITY';
 const UPDATE_USER_LOCATION_CITY = 'UPDATE_USER_LOCATION_CITY';
+const UPDATE_UI_LAYER_CITY_LAYER = 'UPDATE_UI_LAYER_CITY_LAYER';
+const UPDATE_USER = 'UPDATE_USER';
 
 const defaultCityId = 110100;
 const defaultLocation = {
@@ -12,18 +14,29 @@ const defaultLocation = {
 
 const defaultLocationCity = {
    cityId: defaultCityId,
-   address: '',
    name: '',
    hasLocationCity: false
 };
 
-const initState = {
-   location: defaultLocation,
-   locationCity: defaultLocationCity,
-   userLocationCity: defaultLocationCity
+const defaultAccount = {
+   openId: ''
 };
 
-export function locationReducer(state: any = initState, action: Action) {
+const initState = {
+   site: {
+      location: defaultLocation,
+      locationCity: defaultLocationCity,
+      userLocationCity: defaultLocationCity,
+   },
+   account: defaultAccount,
+   ui: {
+      layer: {
+         cityLayer: false
+      }
+   }
+};
+
+function locationReducer(state, action) {
    switch (action.type) {
       case UPDATE_LOCATION:
          return {
@@ -48,5 +61,44 @@ export function locationReducer(state: any = initState, action: Action) {
          };
       default:
          return state;
+   }
+}
+
+function accountReducer(state, action) {
+   switch (action.type) {
+      case UPDATE_USER:
+         return {
+            ...state,
+            account: action['data']
+         };
+      default:
+         return state;
+   }
+}
+
+
+function layerReducer(state, action) {
+   switch (action.type) {
+      case UPDATE_UI_LAYER_CITY_LAYER:
+         return {
+            ...state,
+            cityLayer: action['data']
+         };
+      default:
+         return state;
+   }
+}
+
+function uiReducer(state, action) {
+   return {
+      layer: layerReducer(state.layer, action)
+   }
+}
+
+export function reducers(state: any = initState, action: Action) {
+   return {
+      site: locationReducer(state.site, action),
+      account: accountReducer(state.account, action),
+      ui: uiReducer(state.ui, action),
    }
 }

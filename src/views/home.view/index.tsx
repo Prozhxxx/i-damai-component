@@ -7,6 +7,7 @@ import NetworkPerformance from "@/network/NetworkPerformance";
 import UnitTool from "@/tool/UnitTool";
 import {withRouter, RouteComponentProps} from 'react-router';
 import {push} from "@/util/RouterManager";
+import {connect} from "react-redux";
 import './index.scss'
 
 class HomeView extends React.Component<RouteComponentProps, {

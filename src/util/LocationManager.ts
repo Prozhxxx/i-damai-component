@@ -80,14 +80,12 @@ class LocationManager {
           }
       )
     } else {
-      return new Promise((resolve, reject) => {
-        this.handleLocationPromise().then(location => {
-          this.updateLocationStore(location)
-          resolve(location)
-        }, error => {
-          this.updateLocationStore()
-          reject(error)
-        })
+      return this.handleLocationPromise().then(location => {
+        this.updateLocationStore(location);
+        return location;
+      }, error => {
+        this.updateLocationStore();
+        throw error
       })
     }
   }
@@ -112,12 +110,10 @@ class LocationManager {
     if (longitude && latitude) {
       return Promise.resolve({longitude, latitude})
     } else {
-      return new Promise((resolve, reject) => {
-        this.gaodeLocatePromise().then(location => {
-          resolve(location)
-        }, error => {
-          reject(error)
-        })
+      return this.gaodeLocatePromise().then(location => {
+        return (location)
+      }, error => {
+        throw error
       })
     }
   }
@@ -140,7 +136,17 @@ class LocationManager {
         AMap.event.addListener(geolocation, 'error', onError)
 
         function onComplete (data) {
-          console.log(data);
+          const {position, accuracy} = data;
+          const longitude = position.getLng();
+          const latitude = position.getLat();
+          if (accuracy < 1000){
+            resolve({
+              latitude,
+              longitude
+            })
+          } else {
+            reject('精确度过低')
+          }
         }
 
         function onError (errorData) {

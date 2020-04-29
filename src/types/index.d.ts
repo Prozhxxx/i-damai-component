@@ -10,6 +10,14 @@ interface CategoryModel {
     iconUrl: string;
 }
 
+interface CityModel {
+    id: number
+    level: number
+    name: string
+    nameEasy: string
+    parentId: number
+    nameEn: string
+}
 
 declare module NodeJS {
     interface Global {

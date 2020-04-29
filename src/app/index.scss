@@ -1,6 +1,8 @@
 @import "assets/constant";
 .App {
     color: $tc-main;
+    min-width: 100vw;
+    min-height: 100vh;
 }
 .performance-name{
     max-height: 40px;
