@@ -3,22 +3,28 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (neutrino) => {
+    const isPro = process.env.NODE_ENV === 'production';
     const merge = neutrino.config.merge;
     neutrino.options.root = __dirname;
     neutrino.use(reactComponents({
         html: {
-            // inject: false,
+            inject: true,
+            appMountId: null,
             template: require('html-webpack-template'),
             title: 'i-damai-component',
             scripts: [
                 '//at.alicdn.com/t/font_1747033_ksk1zgdbhvf.js',
                 '//webapi.amap.com/maps?v=1.4.15&key=8b8250081ef2281915a0564d108cf812',
             ],
+            bodyHtmlSnippet: '<damai-ticket></damai-ticket>'
         },
-        components: 'app',
+        components: 'index',
     }));
-
     neutrino.config
+        .output
+        /**/    .set('publicPath', isPro ? './' : '/')
+        .end()
+        .devtool(isPro ? '(none)' : 'source-map')
         .devServer
         /* not refresh page during HMR */
         /**/    .set('hotOnly', false)
@@ -102,7 +108,7 @@ module.exports = (neutrino) => {
         .end()
         .externals({AMap: 'AMap'})
         .optimization
-        /**/    .set('minimize', true)
+        /**/    .set('minimize', false)
         .end()
 
 };

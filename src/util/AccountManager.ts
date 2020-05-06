@@ -1,6 +1,5 @@
 const openId = '';
 
-
 class AccountManager{
     static accountInfo(){
         return {
