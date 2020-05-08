@@ -1,15 +1,18 @@
 import React, {Fragment} from 'react';
 import {connect} from "react-redux";
 import HomeView from '../views/home.view';
-import PerformanceDetailView from '../views/performance.detail.view';
-import PerformanceListView from '../views/performance.list.view';
+import PerformanceDetailView from '@/views/performance/performance.detail.view';
+import PerformanceListView from '@/views/performance/performance.list.view';
+import PerformanceSelectView from '@/views/performance/performance.select.view';
 import CityLayer from '@/components/city.layer';
 import {HashRouter as Router, Switch, Route} from 'react-router-dom';
 import LocationManager from "@/util/LocationManager";
 import GlobalConstant from "@/util/GlobalConstant";
 import NetworkCity from "@/network/NetworkCity";
+import NetworkAccount from "@/network/NetworkAccount";
 import 'cola.css/dist/index.min.css';
 import './index.scss';
+import AccountManager from "@/util/AccountManager";
 
 
 class App extends React.Component<any, {
@@ -27,6 +30,11 @@ class App extends React.Component<any, {
     }
 
     async componentDidMount() {
+        NetworkAccount.login(AccountManager.accountInfo().sessionId).then(data => {
+            console.log(data);
+        }, error => {
+            console.log(error);
+        });
         const setStatePromise = (state) => {
             return new Promise((resolve) => {
                 this.setState(state, resolve)
@@ -79,7 +87,7 @@ class App extends React.Component<any, {
 
     renderRouter(){
         return (
-            <Router>
+            <Router basename="/damai">
                 <Switch>
                     <Route exact path="/">
                         <HomeView/>
@@ -89,6 +97,9 @@ class App extends React.Component<any, {
                     </Route>
                     <Route exact path="/performance-list">
                         <PerformanceListView/>
+                    </Route>
+                    <Route exact path="/performance-select">
+                        <PerformanceSelectView/>
                     </Route>
                 </Switch>
             </Router>

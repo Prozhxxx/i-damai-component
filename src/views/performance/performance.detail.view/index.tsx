@@ -1,7 +1,8 @@
 import React from "react";
 import {useParams, withRouter} from "react-router";
-import {getParams} from "@/util/RouterManager";
+import {getParams, push} from "@/util/RouterManager";
 import NetworkPerformance from '@/network/NetworkPerformance';
+import NetworkMine from '@/network/NetworkMine';
 import FontIcon from "@/components/font.icon";
 import UnitTool from "@/tool/UnitTool";
 import DateTool from "@/tool/DateTool";
@@ -63,13 +64,36 @@ class PerformanceDetailView extends React.Component<any, {
         })
     }
 
+    async fetchCollectPerformance(){
+        const {performanceDetail} = this.state;
+        return NetworkMine.useParams('openId').collectPerformance({
+            projectId: performanceDetail.damaiProject.projectId,
+            projectName: performanceDetail.damaiProject.projectName,
+            posterUrl: performanceDetail.damaiProject.posterUrl,
+            area: performanceDetail.damaiProject.cityId,
+            address: performanceDetail.damaiProject.venueAddress,
+            startTime: performanceDetail.damaiProjectDetail.showStartTime,
+            endTime: performanceDetail.damaiProjectDetail.showEndTime,
+        }).then(data => {
+            console.log(data);
+        }, error => {
+            console.log(error);
+        });
+    }
+
     onClickCollection(){
-        this.setState((state, props) => ({
-            hadColled: !state.hadColled
-        }))
+        this.fetchCollectPerformance();
+        // this.setState((state, props) => ({
+        //     hadColled: !state.hadColled
+        // }))
     }
 
     onClickBuy(){
+        const {history} = this.props;
+        const {projectId} = getParams(this.props.location);
+        push(history,'/performance-select', {
+            projectId: projectId,
+        });
     }
 
     onClickSession(session, index){

@@ -1,0 +1,115 @@
+@import "assets/constant";
+$bottom-bar-height: 50px;
+.performance-select-view{
+  padding-bottom: $bottom-bar-height + 10px;
+  .title{
+    height: 45px;
+    line-height: 45px;
+    font-size: 15px;
+    color: $tc-1;
+    .subtitle{
+      color: $tc-2;
+      font-size: 12px;
+    }
+  }
+  .session-container{
+    padding: 0 15px;
+    .content{
+      margin: 0 -10px;
+    }
+  }
+  .item-wrapper{
+    display: inline-block;
+    box-sizing: content-box;
+    border: 1px solid rgba(0,0,0,0);
+    padding: 5px 10px;
+    margin: 3px 10px;
+    border-radius: 3px;
+    background: #f4f4f4;
+    &.active{
+      border: 1px solid $tc-1;
+      background: white;
+    }
+    &.price-item-wrapper{
+      padding: 5px 25px;
+      margin: 3px 5px;
+    }
+    .item{
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+  .price-container{
+    padding: 0 15px;
+    .content{
+      margin: 0 -5px;
+    }
+  }
+  .count-container{
+    padding: 0 15px;
+    .content{
+      line-height: 30px;
+      .button{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background: #f4f4f4;
+        text-align: center;
+        margin: 0 10px;
+      }
+    }
+  }
+
+  .person-container{
+    padding: 0 15px;
+    .content{
+      .button{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background: #f4f4f4;
+        text-align: center;
+        margin: 0 10px;
+      }
+      .person{
+        flex: 1;
+        font-size: 12px;
+        color: $tc-2;
+      }
+      .icon-wrapper{
+        height: 20px;
+        .icon{
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+
+  .bottom-bar{
+    background: white;
+    height: $bottom-bar-height;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid $seg-color;
+    padding: 0 10px;
+    .price{
+      flex: 1;
+      text-align: right;
+      margin-right: 10px;
+    }
+    .buy{
+      width: 30vw;
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 3px;
+      background: #e7e7e7;
+      color: white;
+      &.active{
+        background: $theme-color;
+      }
+    }
+  }
+}

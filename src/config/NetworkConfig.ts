@@ -1,4 +1,5 @@
 import GlobalConstant from '../util/GlobalConstant';
+import AccountManager from "@/util/AccountManager";
 let networkConfig = null;
 
 export default class NetworkConfig {
@@ -6,6 +7,7 @@ export default class NetworkConfig {
     if (networkConfig) {
       return networkConfig
     }
+    const openId = AccountManager.accountInfo().sessionId;
     let networkDelegate = {
       globalParams() {
         const {site: {location, locationCity, userLocationCity}} = GlobalConstant.store.getState();
@@ -17,7 +19,8 @@ export default class NetworkConfig {
           location: {
             cityId,
             ...coordinate
-          }
+          },
+          openId
         };
       },
       requestInterceptor(config) {
