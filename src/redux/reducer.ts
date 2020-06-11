@@ -3,6 +3,7 @@ const UPDATE_LOCATION = 'UPDATE_LOCATION';
 const UPDATE_LOCATION_CITY = 'UPDATE_LOCATION_CITY';
 const UPDATE_USER_LOCATION_CITY = 'UPDATE_USER_LOCATION_CITY';
 const UPDATE_UI_LAYER_CITY_LAYER = 'UPDATE_UI_LAYER_CITY_LAYER';
+const UPDATE_UI_NAVIGATOR = 'UPDATE_UI_NAVIGATOR';
 const UPDATE_USER = 'UPDATE_USER';
 
 const defaultCityId = 110100;
@@ -32,6 +33,11 @@ const initState = {
    ui: {
       layer: {
          cityLayer: false
+      },
+      navigator: {
+         title: '',
+         leftItem: null,
+         rightItem: null
       }
    }
 };
@@ -89,9 +95,22 @@ function layerReducer(state, action) {
    }
 }
 
+function navigatorReducer(state, action) {
+   switch (action.type) {
+      case UPDATE_UI_NAVIGATOR:
+         return {
+            ...state,
+            ...action['data']
+         };
+      default:
+         return state;
+   }
+}
+
 function uiReducer(state, action) {
    return {
-      layer: layerReducer(state.layer, action)
+      layer: layerReducer(state.layer, action),
+      navigator: navigatorReducer(state.navigator, action),
    }
 }
 

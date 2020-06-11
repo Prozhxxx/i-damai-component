@@ -5,7 +5,8 @@ import PerformanceDetailView from '@/views/performance/performance.detail.view';
 import PerformanceListView from '@/views/performance/performance.list.view';
 import PerformanceSelectView from '@/views/performance/performance.select.view';
 import CityLayer from '@/components/city.layer';
-import {HashRouter as Router, Switch, Route} from 'react-router-dom';
+import {Router, Switch, Route} from 'react-router-dom';
+import {createBrowserHistory} from 'history';
 import LocationManager from "@/util/LocationManager";
 import GlobalConstant from "@/util/GlobalConstant";
 import NetworkCity from "@/network/NetworkCity";
@@ -13,8 +14,10 @@ import NetworkAccount from "@/network/NetworkAccount";
 import 'cola.css/dist/index.min.css';
 import './index.scss';
 import AccountManager from "@/util/AccountManager";
+import Navigator from "@/components/navigator";
+import {NavigatorContext} from "@/util/Context";
 
-
+const history = createBrowserHistory();
 class App extends React.Component<any, {
     locationStatus: string,
     locationCityStatus: string,
@@ -87,7 +90,7 @@ class App extends React.Component<any, {
 
     renderRouter(){
         return (
-            <Router basename="/damai">
+            <Router basename={process.env.NODE_ENV === 'development' ? '/' : '/damai'} history={history}>
                 <Switch>
                     <Route exact path="/">
                         <HomeView/>
@@ -108,14 +111,17 @@ class App extends React.Component<any, {
 
     render(){
         const {locationCityStatus, cityList} = this.state;
-        const {isShowCityLayer} = this.props;
+        const {isShowCityLayer, navigator} = this.props;
         if (locationCityStatus !== 'success' && locationCityStatus !== 'failure'){
             return null;
         }
         return (
-            <div className="App">
-                { isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter() }
-            </div>
+            <NavigatorContext.Provider value={navigator}>
+                <div className="App">
+                    <Navigator/>
+                    { isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter() }
+                </div>
+            </NavigatorContext.Provider>
         );
     }
 }
@@ -123,5 +129,7 @@ class App extends React.Component<any, {
 export default connect(
     state => ({
         isShowCityLayer: state['ui']['layer']['cityLayer'],
+        navigator: state['ui']['navigator'],
     }),
 )(App);
+

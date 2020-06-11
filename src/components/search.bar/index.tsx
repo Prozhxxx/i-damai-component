@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import './index.scss';
 import FontIcon from "@/components/font.icon";
-import {connect} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
+import cn from "classnames";
 
-class SearchBar extends React.Component<any, any>{
+class SearchBar extends React.Component<ConnectedProps<typeof connector> & {
+    className: string,
+    children?: ReactNode
+}, any>{
     onClickCity(){
         this.props.showCityLayer();
     }
 
     render(){
-        const {userLocationCity} = this.props;
+        const {userLocationCity, className} = this.props;
         return (
-            <div className="search-bar flex-middle-x">
+            <div className={cn('search-bar flex-middle-x', className)}>
                 <div className="addr-item flex-center-x" onClick={e => this.onClickCity()}>
                     <div className="title">{userLocationCity.name}</div>
                     <FontIcon className="icon" icon="iconxiala"/>
@@ -25,7 +29,7 @@ class SearchBar extends React.Component<any, any>{
     }
 }
 
-export default connect(
+const connector = connect(
     state => ({
         userLocationCity: state['site']['userLocationCity']
     }),
@@ -35,5 +39,6 @@ export default connect(
             data: true
         })
     })
-)(SearchBar);
+);
+export default connector(SearchBar);
 

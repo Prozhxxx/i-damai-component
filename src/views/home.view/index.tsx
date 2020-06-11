@@ -7,8 +7,8 @@ import NetworkPerformance from "@/network/NetworkPerformance";
 import UnitTool from "@/tool/UnitTool";
 import {withRouter, RouteComponentProps} from 'react-router';
 import {push} from "@/util/RouterManager";
-import {connect} from "react-redux";
 import './index.scss'
+import {navigatorWrapper} from "@/components/NavigatorWrapper";
 
 class HomeView extends React.Component<RouteComponentProps, {
     categoryList: CategoryModel[],
@@ -138,18 +138,20 @@ class HomeView extends React.Component<RouteComponentProps, {
     render(){
         return (
             <div className="home-view">
-                <SearchBar>
+                <SearchBar className={"search-bar"}>
                 </SearchBar>
-                {/*<Swiper>*/}
-                {/*</Swiper>*/}
-                <MenuItems categoryList={this.state.categoryList}
-                           onClickItem={category => this.onClickCategoryItem(category)}>
-                </MenuItems>
-                {this.renderHotPiece()}
-                {this.renderRecommendPiece()}
+                <div className="home-view-content">
+                    {/*<Swiper>*/}
+                    {/*</Swiper>*/}
+                    <MenuItems categoryList={this.state.categoryList}
+                               onClickItem={category => this.onClickCategoryItem(category)}>
+                    </MenuItems>
+                    {this.renderHotPiece()}
+                    {this.renderRecommendPiece()}
+                </div>
             </div>
         )
     }
 }
 
-export default withRouter(HomeView);
+export default withRouter(navigatorWrapper(HomeView, '首页'));

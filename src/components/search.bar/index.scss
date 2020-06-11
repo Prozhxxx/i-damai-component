@@ -1,7 +1,8 @@
+$search-bar-height: 49px;
 .search-bar{
   background: white;
   border-bottom: 1px solid #e6e6e6;
-  height: 49px;
+  height: $search-bar-height;
   width: 100%;
   padding: 0 5px;
   .addr-item{

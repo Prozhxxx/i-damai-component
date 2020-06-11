@@ -1,5 +1,11 @@
 @import "assets/constant";
+@import "src/components/search.bar/index";
 .home-view{
+  padding-top: $search-bar-height;
+  .search-bar{
+    position: fixed;
+    top: $nav-height;
+  }
   .piece-title{
     height: 50px;
     line-height: 50px;

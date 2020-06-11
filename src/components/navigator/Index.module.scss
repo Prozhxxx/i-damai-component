@@ -1,0 +1,16 @@
+@import "assets/constant";
+
+.navigator{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: $nav-height;
+  background:white;
+  border-bottom: 1px solid $seg-color;
+  padding: 0 15px;
+}
+
+.middle{
+  text-align: center;
+}
