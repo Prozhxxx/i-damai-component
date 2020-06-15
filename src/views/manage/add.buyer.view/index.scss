@@ -1,0 +1,42 @@
+@import "assets/constant";
+.add-buyer-view{
+  background: $bg-color;
+  height: 100vh;
+  .item-list{
+    background: white;
+    .item{
+      height: 50px;
+      line-height: 50px;
+      margin: 0 15px;
+      border-bottom: 1px solid $seg-color;
+      .title{
+        width: 100px;
+      }
+      .input{
+        border: none;
+        height: 40px;
+        line-height: 40px;
+      }
+      &:last-child{
+        border-bottom: none;
+      }
+    }
+  }
+  .bottom{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 10px;
+    height: 60px;
+    .content{
+      background: $theme-color;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      color: white;
+      border-radius: 5px;
+    }
+  }
+}

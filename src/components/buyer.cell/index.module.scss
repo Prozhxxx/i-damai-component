@@ -1,0 +1,15 @@
+@import "assets/constant";
+
+.buyerCell{
+  min-height: 70px;
+  .left{
+    flex: 1;
+    .name{
+      color: $tc-1;
+    }
+    .cardNo{
+      color: $tc-2;
+    }
+  }
+}
+

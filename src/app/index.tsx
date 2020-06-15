@@ -4,24 +4,28 @@ import HomeView from '../views/home.view';
 import PerformanceDetailView from '@/views/performance/performance.detail.view';
 import PerformanceListView from '@/views/performance/performance.list.view';
 import PerformanceSelectView from '@/views/performance/performance.select.view';
+import BuyerView from  "@/views/manage/buyer.view";
+import AddBuyerView from "@/views/manage/add.buyer.view";
+import OrderDetailView from "@/views/order/order.detail.view";
 import CityLayer from '@/components/city.layer';
 import {Router, Switch, Route} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
 import LocationManager from "@/util/LocationManager";
 import GlobalConstant from "@/util/GlobalConstant";
 import NetworkCity from "@/network/NetworkCity";
-import NetworkAccount from "@/network/NetworkAccount";
 import 'cola.css/dist/index.min.css';
 import './index.scss';
 import AccountManager from "@/util/AccountManager";
 import Navigator from "@/components/navigator";
 import {NavigatorContext} from "@/util/Context";
+import NetworkAccount from "@/network/NetworkAccount";
 
 const history = createBrowserHistory();
 class App extends React.Component<any, {
     locationStatus: string,
     locationCityStatus: string,
     cityList: CityModel[],
+    loadOpenIdFinish: boolean
 }>{
     constructor(props) {
         super(props);
@@ -29,15 +33,29 @@ class App extends React.Component<any, {
             locationStatus: 'resting',
             locationCityStatus: 'resting',
             cityList: [],
+            loadOpenIdFinish: false
         }
     }
 
-    async componentDidMount() {
-        NetworkAccount.login(AccountManager.accountInfo().sessionId).then(data => {
-            console.log(data);
+    prepareAccount(){
+        NetworkAccount.decrypt(AccountManager.accountInfo().secretObject).then(data => {
+            NetworkAccount.login(JSON.stringify({openId: data.userid, type: ''}))
+                .then((data) => {
+                    AccountManager.updateAccountOpenId(data.openId);
+                    this.setState({
+                        loadOpenIdFinish: true
+                    });
+                    return data.openId;
+                }, error => {
+                    console.log(error)
+                })
         }, error => {
             console.log(error);
         });
+    }
+
+    async componentDidMount() {
+        this.prepareAccount();
         const setStatePromise = (state) => {
             return new Promise((resolve) => {
                 this.setState(state, resolve)
@@ -95,6 +113,12 @@ class App extends React.Component<any, {
                     <Route exact path="/">
                         <HomeView/>
                     </Route>
+                    <Route exact path="/buyer">
+                        <BuyerView/>
+                    </Route>
+                    <Route exact path="/add-buyer">
+                        <AddBuyerView/>
+                    </Route>
                     <Route exact path="/performance-detail">
                         <PerformanceDetailView/>
                     </Route>
@@ -104,21 +128,25 @@ class App extends React.Component<any, {
                     <Route exact path="/performance-select">
                         <PerformanceSelectView/>
                     </Route>
+                    <Route exact path="/order-detail">
+                        <OrderDetailView/>
+                    </Route>
                 </Switch>
             </Router>
         )
     }
 
     render(){
-        const {locationCityStatus, cityList} = this.state;
+        const {locationCityStatus, cityList, loadOpenIdFinish} = this.state;
         const {isShowCityLayer, navigator} = this.props;
         if (locationCityStatus !== 'success' && locationCityStatus !== 'failure'){
             return null;
         }
+        if (!loadOpenIdFinish) return null;
         return (
             <NavigatorContext.Provider value={navigator}>
                 <div className="App">
-                    <Navigator/>
+                    <Navigator history={history}/>
                     { isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter() }
                 </div>
             </NavigatorContext.Provider>

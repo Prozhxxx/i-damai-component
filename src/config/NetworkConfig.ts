@@ -7,12 +7,12 @@ export default class NetworkConfig {
     if (networkConfig) {
       return networkConfig
     }
-    const openId = AccountManager.accountInfo().sessionId;
     let networkDelegate = {
       globalParams() {
+        const openId = AccountManager.accountInfo().openId;
         const {site: {location, locationCity, userLocationCity}} = GlobalConstant.store.getState();
         const {cityId} = userLocationCity;
-        const {hasLocation, ...coordinate} = location
+        const {hasLocation, ...coordinate} = location;
         return {
           cityId,
           coordinate,
@@ -42,7 +42,8 @@ export default class NetworkConfig {
         withCredentials: true
       },
       otherContent: {
-        inType: 'cmbc'
+        // inType: 'i-cmbc-film'
+        inType: 'cgb'
       }
     };
     return networkConfig;

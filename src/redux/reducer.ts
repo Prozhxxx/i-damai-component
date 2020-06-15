@@ -36,7 +36,7 @@ const initState = {
       },
       navigator: {
          title: '',
-         leftItem: null,
+         leftItem: undefined,
          rightItem: null
       }
    }

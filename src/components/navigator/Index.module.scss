@@ -6,11 +6,17 @@
   right: 0;
   top: 0;
   height: $nav-height;
-  background:white;
+  background: #fbfbfb;
   border-bottom: 1px solid $seg-color;
   padding: 0 15px;
 }
 
+.left{
+  width: 20px;
+  height: 100%;
+}
+
 .middle{
   text-align: center;
+  flex: 1;
 }

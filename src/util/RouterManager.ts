@@ -1,10 +1,14 @@
 export default class RouterManager{
-    static push(history, pathname, query, state = {}){
+    static push(history, pathname, query={}, state = {}){
         history.push({
             pathname,
             search: Object.keys(query).map(_ => (`${encodeURIComponent(_)}=${encodeURIComponent(query[_])}`)).join('&'),
             state
         })
+    }
+
+    static pop(history){
+        history.goBack()
     }
 
     static getParams(location): any{
@@ -25,5 +29,6 @@ export default class RouterManager{
 }
 
 export const push = RouterManager.push;
+export const pop = RouterManager.pop;
 export const getParams = RouterManager.getParams;
 

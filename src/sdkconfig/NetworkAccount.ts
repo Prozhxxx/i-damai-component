@@ -5,5 +5,12 @@ export default {
             key: true,
         },
         book: ['key']
+    },
+    decrypt: {
+        methodName: 'C10009',
+        book: ['content'],
+        params: {
+            content: true
+        }
     }
 }
