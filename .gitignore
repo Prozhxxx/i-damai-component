@@ -120,4 +120,3 @@ build
 # webstorm .idea dir
 /.idea/
 config.output.js
-src/components/navigator1/
