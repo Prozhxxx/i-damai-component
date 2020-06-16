@@ -4,26 +4,15 @@ import {useParams, withRouter} from "react-router";
 import './index.scss';
 import {push} from "@/util/RouterManager";
 import {navigatorWrapper} from "@/components/NavigatorWrapper";
-
-class InvoiceMoreInfoView extends React.Component<any, {
-    // navigatorMessage: InvoiceNavigatorModel,
-}> {
+const currHeight = {
+    height: window.screen.height - 49 + 'px'
+}
+class InvoiceMoreInfoView extends React.Component<any, {}> {
     constructor(props) {
         super(props);
-        this.state = {
-            // navigatorMessage: {
-            //     isShowLeft: true,
-            //     isShowCenter: true,
-            //     centerText: '更多信息',
-            //     isShowRight: false
-            // }
-        }
+        this.state = {}
     }
 
-    onClickCallback(){
-        const {history} = this.props;
-        push(history, '/invoice-index', {});
-    }
     renderTicketMessage() {
         return (
             <div className="info-content">
@@ -62,11 +51,10 @@ class InvoiceMoreInfoView extends React.Component<any, {
             </div>
         )
     }
+
     render() {
         return (
-            <div className="invoice-more-info">
-                {/*<Navigator navigatorMessage={this.state.navigatorMessage}*/}
-                           {/*onClickCallback={() => this.onClickCallback()}></Navigator>*/}
+            <div className="invoice-more-info" style={currHeight}>
                 {this.renderTicketMessage()}
                 {this.renderButton()}
             </div>

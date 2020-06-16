@@ -11,6 +11,7 @@ import InvoiceIndexView from '@/views/invoice/invoice.index.view';
 import InvoiceMoreInfoView from '@/views/invoice/invoice.moreinfo.view';
 import InvoiceListView from '@/views/invoice/invoice.list.view';
 import InvoiceDetailView from '@/views/invoice/invoice.detail.view';
+import InvoiceFinishView from '@/views/invoice/invoice.finish.view';
 import CityLayer from '@/components/city.layer';
 import {Router, Switch, Route} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
@@ -143,6 +144,9 @@ class App extends React.Component<any, {
                     </Route>
                     <Route exact path="/invoice-detail">
                         <InvoiceDetailView/>
+                    </Route>
+                    <Route exact path="/invoice-finish">
+                        <InvoiceFinishView/>
                     </Route>
                     <Route exact path="/order-detail">
                         <OrderDetailView/>

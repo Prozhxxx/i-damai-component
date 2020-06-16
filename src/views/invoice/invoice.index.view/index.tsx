@@ -3,10 +3,15 @@ import {useParams, withRouter} from "react-router";
 import {push} from "@/util/RouterManager";
 import Navigator from "@/components/navigatorInvoice";
 import './index.scss';
-
+const currHeight = {
+    height: window.screen.height - 49 + 'px'
+}
 class InvoiceIndexView extends React.Component<any, {
     navigatorMessage: InvoiceNavigatorModel,
-    showSubmitAlert: Boolean
+    isCheckedCo: boolean,
+    showSubmitAlert: boolean,
+    checkImg: string,
+    checkedImg: string
 }> {
     constructor(props) {
         super(props);
@@ -18,7 +23,10 @@ class InvoiceIndexView extends React.Component<any, {
                 isShowRight: true,
                 rightText: '开票历史'
             },
-            showSubmitAlert: false
+            isCheckedCo: true,
+            showSubmitAlert: false,
+            checkImg: require('./img/check.png'),
+            checkedImg: require('./img/checked.png')
         }
     }
 
@@ -38,21 +46,32 @@ class InvoiceIndexView extends React.Component<any, {
         })
     }
 
+    onClickCheckBox() {
+        this.setState({
+            isCheckedCo: !this.state.isCheckedCo
+        })
+    }
+
     onClickHistoryInvoice() {
         const {history} = this.props;
         push(history, '/invoice-list', {});
     }
+    onClickInvoiceSubmit() {
+        const {history} = this.props;
+        push(history, '/invoice-finish', {});
+    }
 
     renderTicketMessage() {
-        const {onClickMoreInfo} = this;
+        const {onClickMoreInfo,onClickCheckBox} = this;
+        const {isCheckedCo, checkImg, checkedImg} = this.state;
         return (
             <div className="ticket-content">
                 <div className="item-area flex-middle-x">
                     <div className="item-left">抬头类型</div>
                     <div className="item-right flex-middle-x title">
-                        <img src={require('./img/check.png')}/>
+                        <img src={isCheckedCo ? checkedImg : checkImg} onClick={onClickCheckBox.bind(this)}/>
                         <span className="left-title">企业抬头</span>
-                        <img src={require('./img/check.png')}/>
+                        <img src={isCheckedCo ? checkImg : checkedImg} onClick={onClickCheckBox.bind(this)}/>
                         <span> 个人/非企业抬头</span>
                     </div>
                 </div>
@@ -60,10 +79,13 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-left">发票抬头</div>
                     <div className="item-right"><input type="text" placeholder="请填写发票抬头(必填)"/></div>
                 </div>
-                <div className="item-area flex-middle-x">
-                    <div className="item-left">发票税号</div>
-                    <div className="item-right"><input type="text" placeholder="请填写纳税人识别号(必填)"/></div>
-                </div>
+                {
+                    isCheckedCo ?
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">发票税号</div>
+                            <div className="item-right"><input type="text" placeholder="请填写纳税人识别号(必填)"/></div>
+                        </div> : ''
+                }
                 <div className="item-area flex-middle-x">
                     <div className="item-left">发票金额</div>
                     <div className="item-right title-price">88元</div>
@@ -123,32 +145,43 @@ class InvoiceIndexView extends React.Component<any, {
 
     renderSubmitOrder() {
         const {showSubmitAlert} = this.state;
+        const {onClickShowAlert,onClickInvoiceSubmit} = this;
         if (showSubmitAlert) {
             return (
-               <div className="submit-order-content">
-                   <div className="submit-content">
-                       <div className="item-area flex-middle-x">
-                           <div className="item-left">发票抬头</div>
-                           <div className="item-right">XXXXXXXX</div>
-                       </div>
-                       <div className="item-area flex-middle-x">
-                           <div className="item-left">发票税号</div>
-                           <div className="item-right">XXXXXXXX</div>
-                       </div>
-                       <div className="item-area flex-middle-x">
-                           <div className="item-left">电子邮箱</div>
-                           <div className="item-right">XXXXXXXX</div>
-                       </div>
-                       <div className="item-area flex-middle-x">
-                           <div className="item-left">收件地址</div>
-                           <div className="item-right">XXXXXXXX</div>
-                       </div>
-                       <div className="item-area flex-middle-x">
-                           <div className="item-left">快递费用</div>
-                           <div className="item-right">顺丰倒付</div>
-                       </div>
-                   </div>
-               </div>
+                <div className="submit-order-content">
+                    <div className="submit-content">
+                        <div className="title flex-center-x">
+                            确认提交
+                            <img src={require('./img/close.png')} onClick={onClickShowAlert.bind(this)}/>
+                        </div>
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">发票抬头</div>
+                            <div className="item-right">XXXXXXXX</div>
+                        </div>
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">发票税号</div>
+                            <div className="item-right">XXXXXXXX</div>
+                        </div>
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">电子邮箱</div>
+                            <div className="item-right">XXXXXXXX</div>
+                        </div>
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">收件地址</div>
+                            <div className="item-right">XXXXXXXX</div>
+                        </div>
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">快递费用</div>
+                            <div className="item-right">顺丰倒付</div>
+                        </div>
+                        <div className="last-item-area item-area tip ">
+                            请确认邮箱无误，纸质发票将在系统开具后通过快递邮寄给您，请注意查收（快递费用需本人承担）
+                        </div>
+                        <div className="btn" onClick={onClickInvoiceSubmit.bind(this)}>
+                            提交
+                        </div>
+                    </div>
+                </div>
             )
         } else {
             return ''
@@ -158,7 +191,7 @@ class InvoiceIndexView extends React.Component<any, {
 
     render() {
         return (
-            <div className="invoice-index-view">
+            <div className="invoice-index-view" style={currHeight}>
                 <Navigator navigatorMessage={this.state.navigatorMessage}
                            onClickCallback={() => this.onClickCallback()}
                            onClickOther={() => this.onClickHistoryInvoice()}>

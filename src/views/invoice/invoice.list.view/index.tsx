@@ -5,24 +5,15 @@ import './index.scss';
 import {push} from "@/util/RouterManager";
 import {navigatorWrapper} from "@/components/NavigatorWrapper";
 
-class InvoiceListView extends React.Component<any, {
-    // navigatorMessage: InvoiceNavigatorModel,
-}> {
+const currHeight = {
+    height: window.screen.height - 49 + 'px'
+}
+
+class InvoiceListView extends React.Component<any, {}> {
+
     constructor(props) {
         super(props);
-        this.state = {
-            // navigatorMessage: {
-            //     isShowLeft: true,
-            //     isShowCenter: true,
-            //     centerText: '开票历史',
-            //     isShowRight: false
-            // }
-        }
-    }
-
-    onClickCallback() {
-        const {history} = this.props;
-        push(history, '/invoice-index', {});
+        this.state = {}
     }
 
     onClickDetail(type) {
@@ -75,7 +66,7 @@ class InvoiceListView extends React.Component<any, {
                 </div>
                 <div>
                     <div className="list-title">2020年5月</div>
-                    <ul className="list-item"  onClick={onClickDetail.bind(this, 1)}>
+                    <ul className="list-item" onClick={onClickDetail.bind(this, 1)}>
                         <li className="flex-middle-x">
                             <div className="item-left ellipsis-text">【上海】「限时赠礼！火热预售」莫奈</div>
                             <div className="item-right">
@@ -99,9 +90,7 @@ class InvoiceListView extends React.Component<any, {
 
     render() {
         return (
-            <div className="invoice-list">
-                {/*<Navigator navigatorMessage={this.state.navigatorMessage}*/}
-                           {/*onClickCallback={() => this.onClickCallback()}></Navigator>*/}
+            <div className="invoice-list" style={currHeight}>
                 {this.renderInvoiceHistoty()}
             </div>
         )

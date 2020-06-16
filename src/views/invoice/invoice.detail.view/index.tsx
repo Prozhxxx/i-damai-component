@@ -5,20 +5,15 @@ import './index.scss';
 import {getParams, push} from "@/util/RouterManager";
 import {number} from "prop-types";
 import {navigatorWrapper} from "@/components/NavigatorWrapper";
-
+const currHeight = {
+    height: window.screen.height - 49 + 'px'
+}
 class InvoiceDetailView extends React.Component<any, {
-    // navigatorMessage: InvoiceNavigatorModel,
     invoiceType: number
 }> {
     constructor(props) {
         super(props);
         this.state = {
-            // navigatorMessage: {
-            //     isShowLeft: true,
-            //     isShowCenter: true,
-            //     centerText: '发票详情',
-            //     isShowRight: false
-            // },
             invoiceType: 0
         }
     }
@@ -30,12 +25,8 @@ class InvoiceDetailView extends React.Component<any, {
         })
     }
 
-    onClickCallback() {
-        const {history} = this.props;
-        push(history, '/invoice-list', {});
-    }
-
     onClickCopy() {
+        // 复制
     }
 
     renderEInvoiceDetail() {
@@ -133,9 +124,7 @@ class InvoiceDetailView extends React.Component<any, {
 
     render() {
         return (
-            <div className="invoice-detail">
-                {/*<Navigator navigatorMessage={this.state.navigatorMessage}*/}
-                {/*onClickCallback={() => this.onClickCallback()}></Navigator>*/}
+            <div className="invoice-detail" style={currHeight}>
                 {
                     this.state.invoiceType == 1 ? this.renderEInvoiceDetail() : this.renderPaperInvoiceDetail()
                 }
