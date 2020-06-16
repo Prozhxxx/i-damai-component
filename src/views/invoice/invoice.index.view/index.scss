@@ -1,0 +1,131 @@
+.invoice-index-view {
+  background-color: #f4f4f4;
+  width: 100vw;
+  height: 100vh;
+
+  .ticket-content, .user-content, .submit-content {
+    background-color: #fff;
+    padding: 0 15px;
+
+    .item-area {
+      height: 45px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 14px;
+
+      .item-left {
+        width: 21vw;
+        color: #333;
+      }
+
+      .item-right {
+        input {
+          height: 34px;
+          border: none;
+        }
+
+        input::-webkit-input-placeholder {
+          color: #999;
+        }
+      }
+
+      .item-icon {
+        position: absolute;
+        right: 15px;
+        width: 2vw;
+        z-index: 0;
+      }
+
+      .title {
+        color: #333;
+
+        img {
+          width: 5vw;
+          height: 2.4vh;
+          margin-right: 6px;
+        }
+
+        .left-title {
+          padding-right: 12px;
+        }
+      }
+
+      .title-price {
+        color: #4190e9;
+      }
+    }
+
+    .last-item-area {
+      border: none;
+    }
+  }
+
+  .user-content {
+    margin-top: 10px;
+    padding-bottom: 15px;
+    margin-bottom: 65px;
+  }
+
+  .submit-order-content {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    .submit-content {
+      background-color: #fff;
+      padding: 0 15px;
+      width: 100vw;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      .item-area {
+        height: 45px;
+        border-bottom: 1px solid #f0f0f0;
+        font-size: 14px;
+
+        .item-left {
+          width: 21vw;
+          color: #333;
+        }
+
+        .item-right {
+          input {
+            height: 34px;
+            border: none;
+          }
+
+          input::-webkit-input-placeholder {
+            color: #999;
+          }
+        }
+      }
+
+      .last-item-area {
+        border: none;
+      }
+    }
+  }
+
+  .submit-btn {
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    height: 62px;
+    width: 100vw;
+
+    .btn {
+      background-color: #4190e9;
+      color: #fff;
+      width: 90vw;
+      height: 44px;
+      line-height: 46px;
+      border-radius: 2px;
+      text-align: center;
+    }
+  }
+}

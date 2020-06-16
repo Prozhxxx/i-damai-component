@@ -1,0 +1,81 @@
+.invoice-detail {
+  background-color: #f4f4f4;
+  width: 100vw;
+  height: 100vh;
+  font-size: 14px;
+
+  .single-title {
+    padding: 0 15px;
+    height: 45px;
+    background-color: #fff;
+    color: #333;
+
+    .left-item {
+      width: 25vw;
+      text-align: left;
+    }
+
+    .right-item {
+      width: 75vw;
+      text-align: right;
+      color: #666;
+
+      .icon {
+        width: 2vw;
+      }
+    }
+  }
+
+  .nav-title {
+    color: #999;
+    padding-left: 15px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  .invoice-order-detail {
+    background-color: #fff;
+    padding: 0 15px;
+    text-align: left;
+
+    li {
+      height: 45px;
+      border-bottom: 1px solid #f0f0f0;
+
+      .left-item {
+        width: 25vw;
+      }
+
+      .right-item {
+        width: 75vw;
+
+        .copy-btn {
+          font-size: 12px;
+          color: #999;
+          border: 1px solid #999;
+          border-radius: 2px;
+          margin-left: 3px;
+          padding: 0 2px;
+        }
+      }
+
+      .price-item {
+        width: 75vw;
+        color: #4190e9;
+
+        span {
+          color: #999;
+          font-size: 12px;
+        }
+      }
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+  }
+
+  .top10 {
+    margin-top: 10px;
+  }
+}

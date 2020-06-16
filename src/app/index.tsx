@@ -4,9 +4,13 @@ import HomeView from '../views/home.view';
 import PerformanceDetailView from '@/views/performance/performance.detail.view';
 import PerformanceListView from '@/views/performance/performance.list.view';
 import PerformanceSelectView from '@/views/performance/performance.select.view';
-import BuyerView from  "@/views/manage/buyer.view";
+import BuyerView from "@/views/manage/buyer.view";
 import AddBuyerView from "@/views/manage/add.buyer.view";
 import OrderDetailView from "@/views/order/order.detail.view";
+import InvoiceIndexView from '@/views/invoice/invoice.index.view';
+import InvoiceMoreInfoView from '@/views/invoice/invoice.moreinfo.view';
+import InvoiceListView from '@/views/invoice/invoice.list.view';
+import InvoiceDetailView from '@/views/invoice/invoice.detail.view';
 import CityLayer from '@/components/city.layer';
 import {Router, Switch, Route} from 'react-router-dom';
 import {createBrowserHistory} from 'history';
@@ -78,23 +82,23 @@ class App extends React.Component<any, {
                 };
                 GlobalConstant.store.dispatch({
                     type: 'UPDATE_LOCATION_CITY',
-                    data: { ...city }
+                    data: {...city}
                 });
                 GlobalConstant.store.dispatch({
                     type: 'UPDATE_USER_LOCATION_CITY',
-                    data: { ...city }
+                    data: {...city}
                 });
-                return setStatePromise( {locationCityStatus: 'success'} )
+                return setStatePromise({locationCityStatus: 'success'})
             }, error => {
                 console.log(error);
-                return setStatePromise( {locationCityStatus: 'failure'} )
+                return setStatePromise({locationCityStatus: 'failure'})
             })
         });
 
         this.fetchCityList();
     }
 
-    async fetchCityList(){
+    async fetchCityList() {
         return NetworkCity.cityList().then(cityList => {
             this.setState({
                 cityList
@@ -106,7 +110,7 @@ class App extends React.Component<any, {
     }
 
 
-    renderRouter(){
+    renderRouter() {
         return (
             <Router basename={process.env.NODE_ENV === 'development' ? '/' : '/damai'} history={history}>
                 <Switch>
@@ -128,6 +132,18 @@ class App extends React.Component<any, {
                     <Route exact path="/performance-select">
                         <PerformanceSelectView/>
                     </Route>
+                    <Route exact path="/invoice-index">
+                        <InvoiceIndexView/>
+                    </Route>
+                    <Route exact path="/invoice-moreinfo">
+                        <InvoiceMoreInfoView/>
+                    </Route>
+                    <Route exact path="/invoice-list">
+                        <InvoiceListView/>
+                    </Route>
+                    <Route exact path="/invoice-detail">
+                        <InvoiceDetailView/>
+                    </Route>
                     <Route exact path="/order-detail">
                         <OrderDetailView/>
                     </Route>
@@ -136,10 +152,10 @@ class App extends React.Component<any, {
         )
     }
 
-    render(){
+    render() {
         const {locationCityStatus, cityList, loadOpenIdFinish} = this.state;
         const {isShowCityLayer, navigator} = this.props;
-        if (locationCityStatus !== 'success' && locationCityStatus !== 'failure'){
+        if (locationCityStatus !== 'success' && locationCityStatus !== 'failure') {
             return null;
         }
         if (!loadOpenIdFinish) return null;
@@ -147,7 +163,7 @@ class App extends React.Component<any, {
             <NavigatorContext.Provider value={navigator}>
                 <div className="App">
                     <Navigator history={history}/>
-                    { isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter() }
+                    {isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter()}
                 </div>
             </NavigatorContext.Provider>
         );

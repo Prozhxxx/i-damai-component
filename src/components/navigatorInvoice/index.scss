@@ -1,0 +1,30 @@
+.navigator {
+  height: 45px;
+  background-color: #fbfbfb;
+  padding: 0 15px;
+  border-bottom: 1px solid #d7d7d7;
+
+  .left-content {
+    width: 25vw;
+    text-align: left;
+
+    img {
+      width: 2.5vw;
+      height: 2.5vh;
+    }
+  }
+
+  .center-content {
+    text-align: center;
+    width: 50vw;
+    color: #231a2f;
+    font-size: 18px;
+  }
+
+  .right-content {
+    text-align: right;
+    width: 25vw;
+    font-size: 14px;
+    color: #666666;
+  }
+}

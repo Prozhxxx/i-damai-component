@@ -3,7 +3,7 @@ import ReactDOM, { render } from 'react-dom';
 import App from '../app';
 import {Provider} from "react-redux";
 import store from "@/redux/store";
-import {GlueRouter} from '@rice-glue/rice-glue'
+// import {GlueRouter} from '@rice-glue/rice-glue'
 const damaiDOM = document.getElementById('damai');
 render(
     <Provider store={store}>
