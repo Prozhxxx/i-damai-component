@@ -1,0 +1,62 @@
+@import "assets/constant";
+
+.add-address-view{
+  background: $bg-color;
+  min-height: 100vh;
+  .item{
+    min-height: 45px;
+    margin: 0 10px;
+    border-bottom: 1px solid $seg-color;
+    &:last-child{
+      border-bottom: none;
+    }
+    font-size: 14px;
+    .title{
+      color: $tc-1;
+      min-width: 80px;
+    }
+    input{
+      flex: 1 0;
+      height: 40px;
+      border: none;
+      &::-webkit-input-placeholder{
+        color: $tc-2;
+      }
+    }
+    .picker-text{
+      flex: 1 0;
+      padding: 10px 0;
+    }
+  }
+  .address-contacts{
+    background: white;
+  }
+
+  .address-location{
+    background: white;
+    margin-top: 10px;
+  }
+
+  .is-default{
+    background: white;
+    margin-top: 10px;
+  }
+
+  .bottom-area{
+    position: fixed;
+    background: white;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 30px;
+    .content{
+      background: $theme-color;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      border-radius: 25px;
+      color: white;
+      font-size: 14px;
+    }
+  }
+}

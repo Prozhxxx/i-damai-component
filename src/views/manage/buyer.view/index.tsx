@@ -2,7 +2,7 @@ import React from "react";
 import NetworkMine from "@/network/NetworkMine";
 import cn from 'classnames';
 import {withRouter} from 'react-router';
-import {push} from "@/util/RouterManager";
+import {push, getParams} from "@/util/RouterManager";
 import BuyerCell from '@/components/buyer.cell';
 import './index.scss';
 
@@ -17,6 +17,8 @@ class BuyerView extends React.Component<any, any>{
     }
 
     componentDidMount(): void {
+        const params = getParams(this.props.location);
+        console.log(params)
         NetworkMine.useParams('openId').buyerList().then(data => {
             this.setState({
                 buyerList: data

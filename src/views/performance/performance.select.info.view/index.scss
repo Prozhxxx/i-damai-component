@@ -1,0 +1,57 @@
+@import "assets/constant";
+
+.performance-select-info-view {
+  .piece{
+    padding: 0 15px;
+    margin-top: 10px;
+    .title{
+      font-weight: bold;
+    }
+    .content{
+      text-align: center;
+      .add-buyer{
+        display: inline-block;
+        border: 2px solid $seg-color;
+        background: #e6e6e6;
+        color: $tc-1;
+        padding: 5px 15px;
+      }
+      .item-list{
+        padding: 5px 0;
+        .item{
+          margin-right: 10px;
+          font-size: 14px;
+          border: 1px solid gray;
+          padding: 5px 5px;
+          &.active{
+            background: gray;
+            color: white;
+          }
+        }
+      }
+      .paper-list{
+        .item{
+          margin-right: 10px;
+          padding: 5px 5px;
+          :first-child{
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+  }
+
+  .access-way{
+
+  }
+
+  .bottom-bar{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 49px;
+    background: $theme-color;
+  }
+}

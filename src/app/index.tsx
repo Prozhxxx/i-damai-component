@@ -4,9 +4,13 @@ import HomeView from '../views/home.view';
 import PerformanceDetailView from '@/views/performance/performance.detail.view';
 import PerformanceListView from '@/views/performance/performance.list.view';
 import PerformanceSelectView from '@/views/performance/performance.select.view';
+import PerformanceSelectInfoView from '@/views/performance/performance.select.info.view';
 import BuyerView from "@/views/manage/buyer.view";
+import AddressView from "@/views/manage/address.view";
 import AddBuyerView from "@/views/manage/add.buyer.view";
+import AddAddressView from "@/views/manage/add.address.view";
 import OrderDetailView from "@/views/order/order.detail.view";
+import OrderConfirmView from "@/views/order/order.confirm.view";
 import InvoiceIndexView from '@/views/invoice/invoice.index.view';
 import InvoiceMoreInfoView from '@/views/invoice/invoice.moreinfo.view';
 import InvoiceListView from '@/views/invoice/invoice.list.view';
@@ -43,14 +47,15 @@ class App extends React.Component<any, {
     }
 
     prepareAccount(){
-        NetworkAccount.decrypt(AccountManager.accountInfo().secretObject).then(data => {
-            NetworkAccount.login(JSON.stringify({openId: data.userid, type: ''}))
+        return NetworkAccount.decrypt(AccountManager.accountSecret()).then(accont => {
+            console.log(accont);
+            return NetworkAccount.login(JSON.stringify({openId: accont.userid, type: ''}))
                 .then((data) => {
-                    AccountManager.updateAccountOpenId(data.openId);
+                    AccountManager.updateAccount(accont);
                     this.setState({
                         loadOpenIdFinish: true
                     });
-                    return data.openId;
+                    return data;
                 }, error => {
                     console.log(error)
                 })
@@ -121,8 +126,14 @@ class App extends React.Component<any, {
                     <Route exact path="/buyer">
                         <BuyerView/>
                     </Route>
+                    <Route exact path="/address">
+                        <AddressView/>
+                    </Route>
                     <Route exact path="/add-buyer">
                         <AddBuyerView/>
+                    </Route>
+                    <Route exact path="/add-address">
+                        <AddAddressView/>
                     </Route>
                     <Route exact path="/performance-detail">
                         <PerformanceDetailView/>
@@ -132,6 +143,9 @@ class App extends React.Component<any, {
                     </Route>
                     <Route exact path="/performance-select">
                         <PerformanceSelectView/>
+                    </Route>
+                    <Route exact path="/performance-select-info">
+                        <PerformanceSelectInfoView/>
                     </Route>
                     <Route exact path="/invoice-index">
                         <InvoiceIndexView/>
@@ -150,6 +164,9 @@ class App extends React.Component<any, {
                     </Route>
                     <Route exact path="/order-detail">
                         <OrderDetailView/>
+                    </Route>
+                    <Route exact path="/order-confirm">
+                        <OrderConfirmView/>
                     </Route>
                 </Switch>
             </Router>

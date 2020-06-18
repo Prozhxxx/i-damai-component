@@ -10,3 +10,5 @@ class GlobalConstant {
 }
 
 export default GlobalConstant;
+export const baseUrl = GlobalConstant.baseUrl;
+

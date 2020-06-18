@@ -1,0 +1,136 @@
+@import "assets/constant";
+.order-confirm-view{
+  .banner-container{
+    color: $tc-2;
+    font-size: 14px;
+    padding: 10px 20px;
+    background: #7b8491;
+    .banner{
+      background: white;
+      padding: 15px;
+      .name{
+        color: $tc-1;
+        font-size: 15px;
+        min-height: 20px;
+      }
+      .address{
+        min-height: 20px;
+      }
+      .date{
+        min-height: 20px;
+      }
+      .price{
+        min-height: 20px;
+      }
+      .seat{
+        font-size: 12px;
+        min-height: 20px;
+      }
+      .message{
+        min-height: 40px;
+        .item{
+          font-size: 12px;
+        }
+      }
+    }
+  }
+  .container{
+    margin-top: 10px;
+    .title {
+      padding: 0 15px;
+      .subtitle{
+        font-size: 12px;
+        color: $tc-2;
+      }
+    }
+    .content{
+      margin: 0 15px;
+      border-bottom: 1px solid $seg-color;
+      .placeholder{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background: #f4f4f4;
+        text-align: center;
+        margin: 0 10px;
+      }
+      .info{
+        flex: 1;
+        justify-content: space-around;
+        min-height: 50px;
+      }
+      .person{
+        font-size: 12px;
+        color: $tc-2;
+        .name, .phone{
+          color: $tc-1;
+          &.name{
+            margin-right: 10px;
+          }
+        }
+      }
+      .icon-wrapper{
+        height: 20px;
+        .icon{
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+
+    .access-way{
+      flex-wrap: wrap;
+      padding-bottom: 10px;
+      .item{
+        font-size: 13px;
+        flex: 0 0 30vw;
+        margin-top: 10px;
+        label{
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .subinfo{
+      padding-bottom: 10px;
+      font-size: 12px;
+      color: $tc-1;
+      div:first-child{
+        flex: 1 0;
+        overflow: hidden;
+      }
+      .type, .address{
+        height: 25px;
+        line-height: 25px;
+      }
+      .none{
+        color: #d3483e;
+      }
+    }
+  }
+  .bottom-bar{
+    background: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px solid $seg-color;
+    padding: 5px 10px;
+    .price{
+      flex: 1;
+      text-align: right;
+      margin-right: 10px;
+    }
+    .buy{
+      height: 44px;
+      text-align: center;
+      padding: 10px 12vw;
+      background: #e7e7e7;
+      color: white;
+      border-radius: 22px;
+      &.active{
+        background: $theme-color;
+      }
+    }
+  }
+}

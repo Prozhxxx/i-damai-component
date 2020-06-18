@@ -8,17 +8,24 @@ const key = '3081890220650223ba43adb3d4bc14a82418a15b105e5eac56d35135b16f6a93c26
 const secretObject = JSON.stringify({cipher, iv, key})
 
 class AccountManager{
-    static account = {
+    static account: AccountModel = {
         // sessionId,
-        secretObject,
         openId: null
     };
-    static accountInfo(){
+
+    static accountInfo(): AccountModel{
         return this.account
     }
 
-    static updateAccountOpenId(openId){
-        this.account.openId = openId;
+    static accountSecret(){
+        return secretObject;
+    }
+
+    static updateAccount(data: CGBAccount){
+        this.account = {
+            ...data,
+            openId: data.userid,
+        };
     }
 }
 

@@ -1,0 +1,13 @@
+@import "assets/constant";
+
+.address-view{
+  .add-button{
+    margin: 10px 15px;
+    height: 40px;
+    line-height: 40px;
+    background: $theme-light-color;
+    text-align: center;
+    color: $theme-color;
+    border-radius: 20px;
+  }
+}

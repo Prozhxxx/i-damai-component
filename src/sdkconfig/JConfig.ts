@@ -3,6 +3,8 @@ import NetworkMine from './NetworkMine';
 import NetworkAccount from './NetworkAccount';
 import NetworkTrade from './NetworkTrade';
 import NetworkPerformance from './NetworkPerformance';
+import NetworkOther from './NetworkOther';
+
 
 const DEFAULT_NETWORK_CONFIG = {
   precook: (_) => _.data,
@@ -31,5 +33,6 @@ export default {
   NetworkAccount,
   NetworkTrade,
   NetworkPerformance,
+  NetworkOther,
   DEFAULT_NETWORK_CONFIG
 }
