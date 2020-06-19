@@ -141,17 +141,15 @@ class OrderConfirmView extends React.Component<any, {
     async fetchAddressList(){
         return NetworkMine.useParams('openId').addressList().then(data => {
             const address = data.find(_ => _.isDefault === 1);
-            if (address){
-                this.setState({ address })
-            }
+            this.setState({ address: address ?? [] })
         }, error => {
             console.log(error);
         })
     }
 
     async fetchShopList(projectId){
-        return NetworkTrade.shopList(projectId).then(data => {
-            this.setState({ shopList: data })
+        return NetworkTrade.shopList(projectId).then(shopList => {
+            this.setState({ shopList: shopList ?? [] })
 
         }, error => {
             console.log(error);
@@ -273,7 +271,7 @@ class OrderConfirmView extends React.Component<any, {
                             {
                                 shopList.map(shop => {
                                     return (
-                                        <div className={cn('item flex-middle-x')}>
+                                        <div key={shop.pointId} className={cn('item flex-middle-x')}>
                                             <div className="icon-wrapper">
                                                 <FontIcon icon={'icondizhi'}
                                                           strokeColor={'#000'}

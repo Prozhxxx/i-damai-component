@@ -136,7 +136,7 @@ class PerformanceListView extends React.Component<RouteComponentProps, {
             <div className={'performance-list-view'}>
                 <div className={'head-container'}>
                     {this.renderCategoryPiece()}
-                    {this.renderFilterBar()}
+                    {/*{this.renderFilterBar()}*/}
                 </div>
                 {this.renderPerformanceList()}
             </div>
