@@ -129,7 +129,10 @@ class InvoiceListView extends React.Component<any, {
         return (
             <div className="invoice-area">
                 {
-                    count ? <div>{message}</div> : <div>werqe</div>
+                    count ? <div>{message}</div> :
+                        <div className="no-message flex-center-y">
+                            暂无相关信息~
+                        </div>
                 }
 
             </div>
