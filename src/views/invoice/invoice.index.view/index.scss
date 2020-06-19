@@ -17,6 +17,9 @@
       }
 
       .item-right {
+        width: 79vw;
+        color: #666;
+
         input {
           height: 34px;
           border: none;
@@ -63,7 +66,7 @@
     margin-bottom: 65px;
   }
 
-  .submit-order-content {
+  .alert-content {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.6);

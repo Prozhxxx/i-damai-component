@@ -12,7 +12,6 @@ import AddAddressView from "@/views/manage/add.address.view";
 import OrderDetailView from "@/views/order/order.detail.view";
 import OrderConfirmView from "@/views/order/order.confirm.view";
 import InvoiceIndexView from '@/views/invoice/invoice.index.view';
-import InvoiceMoreInfoView from '@/views/invoice/invoice.moreinfo.view';
 import InvoiceListView from '@/views/invoice/invoice.list.view';
 import InvoiceDetailView from '@/views/invoice/invoice.detail.view';
 import InvoiceFinishView from '@/views/invoice/invoice.finish.view';
@@ -151,9 +150,6 @@ class App extends React.Component<any, {
                     </Route>
                     <Route exact path="/invoice-index">
                         <InvoiceIndexView/>
-                    </Route>
-                    <Route exact path="/invoice-moreinfo">
-                        <InvoiceMoreInfoView/>
                     </Route>
                     <Route exact path="/invoice-list">
                         <InvoiceListView/>

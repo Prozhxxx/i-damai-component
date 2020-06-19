@@ -1,6 +1,29 @@
+@import "assets/constant";
 .invoice-more-info {
   background-color: #f4f4f4;
   width: 100vw;
+
+  .nav-title {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: $nav-height;
+    background: #fbfbfb;
+    border-bottom: 1px solid $seg-color;
+    padding: 0 15px;
+
+    .left{
+      width: 20px;
+      height: 100%;
+    }
+
+    .middle{
+      text-align: center;
+      flex: 1;
+    }
+  }
 
   .info-content {
     background-color: #fff;

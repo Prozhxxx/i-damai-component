@@ -3,6 +3,7 @@ import NetworkMine from './NetworkMine';
 import NetworkAccount from './NetworkAccount';
 import NetworkTrade from './NetworkTrade';
 import NetworkPerformance from './NetworkPerformance';
+import NetworkInvoice from './NetworkInvoice';
 import NetworkOther from './NetworkOther';
 
 
@@ -34,5 +35,6 @@ export default {
   NetworkTrade,
   NetworkPerformance,
   NetworkOther,
+  NetworkInvoice,
   DEFAULT_NETWORK_CONFIG
 }
