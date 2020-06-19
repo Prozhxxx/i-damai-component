@@ -65,7 +65,14 @@ class InvoiceListView extends React.Component<any, {
 
     dataFormat(time) {
         const timeStr = DateTool.dateStringFromTimeInterval(time / 1000, 'YYYY-MM-DD HH:mm');
-        return timeStr;
+        const timeArray = timeStr.split(' ').map((data, index) => {
+            if (index === 0) {
+                return data.split('-').map((ret) => ret)
+            } else {
+                return data
+            }
+        })
+        return `${timeArray[0][0]}年${timeArray[0][1]}月${timeArray[0][2]}日${timeArray[1]}`;
     }
 
     renderInvoiceHistoty() {
