@@ -1,6 +1,10 @@
 @import "assets/constant";
 
 .address-view{
+  .address-cell{
+    border-bottom: 1px solid $seg-color;
+    margin: 0 10px;
+  }
   .add-button{
     margin: 10px 15px;
     height: 40px;

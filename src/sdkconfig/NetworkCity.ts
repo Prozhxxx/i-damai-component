@@ -2,6 +2,9 @@ export default {
     cityList: {
         methodName: 'Y10001',
     },
+    cityTree: {
+        methodName: 'Y10010',
+    },
     async_cityByCoordinate: {
         methodName: 'Y10026',
     },
@@ -12,4 +15,5 @@ export default {
         },
         book: ['requestId']
     },
+
 }

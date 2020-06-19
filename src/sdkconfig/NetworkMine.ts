@@ -51,12 +51,11 @@ export default {
         }
     },
     addAddress: {
-        methodName: 'Y10034',
+        methodName: 'Y10036',
         params: {
             openId: true,
             areaId: true,
             cityId: true,
-            countryId: true,
             provinceId: true,
             address: true,
             name: true,

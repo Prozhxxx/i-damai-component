@@ -2,9 +2,11 @@ import React from 'react';
 import style from './index.module.css';
 import classNames from 'classnames';
 
-export default function FontIcon(props: {icon, fillColor?, className?, width?, height?}) {
-    const {icon, fillColor, className = '', width, height} = props;
-    const propStyle = fillColor ? {fill: fillColor}: {};
+export default function FontIcon(props: {icon, fillColor?, strokeColor?, className?, width?, height?}) {
+    const {icon, fillColor, strokeColor, className = '', width, height} = props;
+    let propStyle = {};
+    fillColor && (propStyle['fill'] = fillColor);
+    strokeColor && (propStyle['stroke'] = strokeColor);
     const svgStyle = {} as any;
     if (width !== undefined){
         svgStyle.width = width;
@@ -18,3 +20,4 @@ export default function FontIcon(props: {icon, fillColor?, className?, width?, h
         </svg>
     )
 };
+

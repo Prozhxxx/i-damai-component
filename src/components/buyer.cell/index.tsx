@@ -5,7 +5,8 @@ import style from './index.module.scss';
 
 class BuyerCell extends React.Component<{
     buyer: BuyerModel,
-    className?: string
+    className?: string,
+    onClick?: Function
 }, any>{
 
     coverString(targetString, edgeCount, options={}){
@@ -26,10 +27,10 @@ class BuyerCell extends React.Component<{
     }
     
     render(){
-        const {buyer, className} = this.props;
+        const {buyer, className, onClick} = this.props;
 
         return (
-            <div className={cn(style.buyerCell, 'flex-middle-x', className)}>
+            <div onClick={e => onClick()} className={cn(style.buyerCell, 'flex-middle-x', className)}>
                 <div className={cn(style.left)}>
                     <div className={cn(style.name)}>
                         {this.coverString(buyer.userName, 1, {isMiddle: false, isHemi: true})}

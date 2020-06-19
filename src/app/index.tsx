@@ -30,6 +30,8 @@ import {NavigatorContext} from "@/util/Context";
 import NetworkAccount from "@/network/NetworkAccount";
 
 const history = createBrowserHistory();
+window.eventTarget = new EventTarget();
+
 class App extends React.Component<any, {
     locationStatus: string,
     locationCityStatus: string,
@@ -107,7 +109,7 @@ class App extends React.Component<any, {
     async fetchCityList() {
         return NetworkCity.cityList().then(cityList => {
             this.setState({
-                cityList
+                cityList: cityList ?? []
             });
             return cityList;
         }, error => {
@@ -165,7 +167,7 @@ class App extends React.Component<any, {
                     <Route exact path="/order-detail">
                         <OrderDetailView/>
                     </Route>
-                    <Route exact path="/order-confirm">
+                    <Route path="/order-confirm">
                         <OrderConfirmView/>
                     </Route>
                 </Switch>

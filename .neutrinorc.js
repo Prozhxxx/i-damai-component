@@ -13,7 +13,7 @@ module.exports = (neutrino) => {
             template: require('html-webpack-template'),
             title: 'i-damai-component',
             scripts: [
-                '//at.alicdn.com/t/font_1747033_g2qqn20iqmt.js',
+                '//at.alicdn.com/t/font_1747033_y7f0flm59pf.js',
                 '//webapi.amap.com/maps?v=1.4.15&key=8b8250081ef2281915a0564d108cf812',
             ],
             // bodyHtmlSnippet: '<div onclick="onTest()" style="height: 30px; width: 100px;">button</div><script>var a = 1;  function onTest(){console.log(a++); document.getElementById("damai").style.display = a%2?"none":"block"; window.location.hash=a%2?"":"damai"}</script>'

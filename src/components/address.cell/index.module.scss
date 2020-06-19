@@ -1,0 +1,23 @@
+@import "assets/constant";
+
+.addressCell{
+  font-size: 15px;
+  padding: 10px 0;
+}
+
+.contect{
+  min-height: 30px;
+}
+
+.name{
+  color: $tc-1;
+  margin-right: 10px;
+}
+.phone{
+  color: $tc-2;
+}
+
+.address{
+  min-height: 30px;
+  color: $tc-2;
+}

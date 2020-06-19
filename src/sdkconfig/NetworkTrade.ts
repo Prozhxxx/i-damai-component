@@ -1,4 +1,11 @@
 export default {
+    shopList: {
+        methodName: 'Y10051',
+        params:{
+            projectId: true,   //用户唯一标识
+        },
+        book: [ 'projectId' ]
+    },
     createOrder: {
         methodName: 'Y10021',
         params:{
