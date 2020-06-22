@@ -5,6 +5,7 @@ import {withRouter} from 'react-router';
 import {push, getParams, pop} from "@/util/RouterManager";
 import BuyerCell from '@/components/buyer.cell';
 import './index.scss';
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 
 class BuyerView extends React.Component<any, any>{

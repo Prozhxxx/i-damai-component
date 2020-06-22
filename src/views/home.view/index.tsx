@@ -8,7 +8,7 @@ import UnitTool from "@/tool/UnitTool";
 import {withRouter, RouteComponentProps} from 'react-router';
 import {push} from "@/util/RouterManager";
 import './index.scss'
-import {navigatorWrapper} from "@/components/NavigatorWrapper";
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 class HomeView extends React.Component<RouteComponentProps, {
     categoryList: CategoryModel[],
@@ -154,4 +154,4 @@ class HomeView extends React.Component<RouteComponentProps, {
     }
 }
 
-export default withRouter(navigatorWrapper(HomeView, '首页'));
+export default withRouter(HomeView);

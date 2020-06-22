@@ -12,6 +12,7 @@ import AddressView from "@/views/manage/address.view";
 import AddAddressView from "@/views/manage/add.address.view";
 import './index.scss';
 import BuyerView from "@/views/manage/buyer.view";
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 enum DeliveryType {
     NOPAPER = 1,
@@ -384,7 +385,7 @@ class OrderConfirmView extends React.Component<any, {
                             ['不支持退', '不支持选座', '不提供发票', '快递票'].map((title, index) => {
                                 return (
                                     <div className={cn('item flex-middle-x')} key={index}>
-                                        <FontIcon icon="icontishi" width={12} height={12}/>
+                                        <FontIcon icon="icontishi" width={15} height={15} fillColor={'#f19e4b'}/>
                                         <span>{title}</span>
                                     </div>
                                 )

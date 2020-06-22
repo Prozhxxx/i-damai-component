@@ -4,7 +4,7 @@ import {useParams, withRouter} from "react-router";
 import './index.scss';
 import {getParams, push} from "@/util/RouterManager";
 import {number} from "prop-types";
-import {navigatorWrapper} from "@/components/NavigatorWrapper";
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 const currHeight = {
     height: window.screen.height - 49 + 'px'
 }

@@ -6,6 +6,7 @@ import {withRouter, RouteComponentProps} from "react-router";
 import {getParams, push} from '@/util/RouterManager';
 import FontIcon from "@/components/font.icon";
 import './index.scss';
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 class PerformanceListView extends React.Component<RouteComponentProps, {
     categoryList: CategoryModel[],

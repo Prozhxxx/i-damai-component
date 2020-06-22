@@ -3,6 +3,8 @@ import cn from "classnames";
 import FontIcon from "@/components/font.icon";
 import NetworkMine from "@/network/NetworkMine";
 import {getParams} from "@/util/RouterManager";
+import {withRouter} from 'react-router';
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 import './index.scss';
 
 class OrderDetailView extends React.Component<any, any>{
@@ -134,4 +136,4 @@ class OrderDetailView extends React.Component<any, any>{
     }
 }
 
-export default OrderDetailView;
+export default withRouter(OrderDetailView);

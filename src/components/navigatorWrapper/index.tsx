@@ -1,24 +1,33 @@
 import React from "react";
-import GlobalConstant from "@/util/GlobalConstant";
+import RouterManager from "@/util/RouterManager";
 
-export function navigatorWrapper(WrappedComponent, title?){
+
+export function navigatorWrapper(WrappedComponent, title?):
+    React.ComponentType<any>{
     return class extends React.Component<any, any>{
+        private title: string;
         constructor(props) {
             super(props);
             let navigatorOption = {};
-            if (typeof WrappedComponent.navigatorOptionPicker === 'function'){
+            if (typeof WrappedComponent.prototype.navigatorOptionPicker === 'function'){
                 navigatorOption = WrappedComponent.prototype.navigatorOptionPicker(this);
             }
-            title = title || navigatorOption['title'];
-            GlobalConstant.store.dispatch({
-                type: 'UPDATE_UI_NAVIGATOR',
-                data: {
-                    title,
-                    leftItem: navigatorOption['leftItem'],
-                    rightItem: navigatorOption['rightItem']
-                }
-            })
+            this.title = navigatorOption?.['title'] ?? title;
+            // WrappedComponent.prototype.updateTitle = this.updateTitle.bind(this);
         }
+
+        updateTitle(title){
+          // RouterManager.updateNavigatorTitle(title)
+        }
+
+        componentDidMount(): void {
+            // this.updateTitle(this.title);
+        }
+
+        componentWillUnmount(): void {
+            // this.updateTitle('');
+        }
+
         render() {
             return <WrappedComponent {...this.props} />;
         }

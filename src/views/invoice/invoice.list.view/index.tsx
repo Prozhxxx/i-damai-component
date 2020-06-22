@@ -3,7 +3,7 @@ import {useParams, withRouter} from "react-router";
 // import Navigator from "@/components/navigatorInvoice";
 import './index.scss';
 import {push} from "@/util/RouterManager";
-import {navigatorWrapper} from "@/components/NavigatorWrapper";
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 import NetworkInvoice from "@/network/NetworkInvoice";
 import NumberTool from "@/tool/NumberTool";
 import DateTool from "@/tool/DateTool";

@@ -2,7 +2,7 @@ import React from "react";
 import {useParams, withRouter} from "react-router";
 import './index.scss';
 import {push} from "@/util/RouterManager";
-import {navigatorWrapper} from "@/components/NavigatorWrapper";
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 class InvoiceFinishView extends React.Component<any, {}> {
     constructor(props) {

@@ -1,32 +1,19 @@
 import React, {Fragment} from 'react';
 import {connect} from "react-redux";
-import HomeView from '../views/home.view';
-import PerformanceDetailView from '@/views/performance/performance.detail.view';
-import PerformanceListView from '@/views/performance/performance.list.view';
-import PerformanceSelectView from '@/views/performance/performance.select.view';
-import PerformanceSelectInfoView from '@/views/performance/performance.select.info.view';
-import BuyerView from "@/views/manage/buyer.view";
-import AddressView from "@/views/manage/address.view";
-import AddBuyerView from "@/views/manage/add.buyer.view";
-import AddAddressView from "@/views/manage/add.address.view";
-import OrderDetailView from "@/views/order/order.detail.view";
-import OrderConfirmView from "@/views/order/order.confirm.view";
-import InvoiceIndexView from '@/views/invoice/invoice.index.view';
-import InvoiceListView from '@/views/invoice/invoice.list.view';
-import InvoiceDetailView from '@/views/invoice/invoice.detail.view';
-import InvoiceFinishView from '@/views/invoice/invoice.finish.view';
 import CityLayer from '@/components/city.layer';
 import {Router, Switch, Route} from 'react-router-dom';
-import {createBrowserHistory} from 'history';
+import {Action, createBrowserHistory, Location} from 'history';
 import LocationManager from "@/util/LocationManager";
 import GlobalConstant from "@/util/GlobalConstant";
 import NetworkCity from "@/network/NetworkCity";
 import 'cola.css/dist/index.min.css';
-import './index.scss';
 import AccountManager from "@/util/AccountManager";
 import Navigator from "@/components/navigator";
 import {NavigatorContext} from "@/util/Context";
 import NetworkAccount from "@/network/NetworkAccount";
+import RouterManager, {routes} from "@/util/RouterManager";
+import './index.scss';
+
 
 const history = createBrowserHistory();
 window.eventTarget = new EventTarget();
@@ -66,6 +53,21 @@ class App extends React.Component<any, {
     }
 
     async componentDidMount() {
+        const getTitle = (location) => {
+            const {pathname} = location;
+            let title = '';
+            if (pathname){
+                title = routes.find(route => route.path === pathname)?.title ?? '';
+            }
+            return title;
+        };
+        RouterManager.updateNavigatorTitle(getTitle(history.location));
+        history.listen((
+            location,
+            action,
+        ) => {
+            RouterManager.updateNavigatorTitle(getTitle(location))
+        });
         this.prepareAccount();
         const setStatePromise = (state) => {
             return new Promise((resolve) => {
@@ -121,51 +123,12 @@ class App extends React.Component<any, {
         return (
             <Router basename={process.env.NODE_ENV === 'development' ? '/' : '/damai'} history={history}>
                 <Switch>
-                    <Route exact path="/">
-                        <HomeView/>
-                    </Route>
-                    <Route exact path="/buyer">
-                        <BuyerView/>
-                    </Route>
-                    <Route exact path="/address">
-                        <AddressView/>
-                    </Route>
-                    <Route exact path="/add-buyer">
-                        <AddBuyerView/>
-                    </Route>
-                    <Route exact path="/add-address">
-                        <AddAddressView/>
-                    </Route>
-                    <Route exact path="/performance-detail">
-                        <PerformanceDetailView/>
-                    </Route>
-                    <Route exact path="/performance-list">
-                        <PerformanceListView/>
-                    </Route>
-                    <Route exact path="/performance-select">
-                        <PerformanceSelectView/>
-                    </Route>
-                    <Route exact path="/performance-select-info">
-                        <PerformanceSelectInfoView/>
-                    </Route>
-                    <Route exact path="/invoice-index">
-                        <InvoiceIndexView/>
-                    </Route>
-                    <Route exact path="/invoice-list">
-                        <InvoiceListView/>
-                    </Route>
-                    <Route exact path="/invoice-detail">
-                        <InvoiceDetailView/>
-                    </Route>
-                    <Route exact path="/invoice-finish">
-                        <InvoiceFinishView/>
-                    </Route>
-                    <Route exact path="/order-detail">
-                        <OrderDetailView/>
-                    </Route>
-                    <Route path="/order-confirm">
-                        <OrderConfirmView/>
-                    </Route>
+                    {routes.map(route => {
+                        return (
+                            <route.component key={route.path} exact path={route.path}>
+                            </route.component>
+                        )
+                    })}
                 </Switch>
             </Router>
         )

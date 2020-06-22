@@ -8,6 +8,7 @@ import {getParams, push} from "@/util/RouterManager";
 import cn from 'classnames';
 import UnitTool from "@/tool/UnitTool";
 import './index.scss';
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 
 class PerformanceSelectView extends React.Component<any, {

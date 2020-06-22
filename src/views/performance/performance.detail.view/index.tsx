@@ -1,6 +1,6 @@
 import React from "react";
 import {useParams, withRouter} from "react-router";
-import {getParams, push} from "@/util/RouterManager";
+import RouterManager, {getParams, push} from "@/util/RouterManager";
 import NetworkPerformance from '@/network/NetworkPerformance';
 import NetworkMine from '@/network/NetworkMine';
 import FontIcon from "@/components/font.icon";
@@ -8,6 +8,7 @@ import UnitTool from "@/tool/UnitTool";
 import DateTool from "@/tool/DateTool";
 import cn from 'classnames';
 import './index.scss';
+import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 class PerformanceDetailView extends React.Component<any, {
     performanceDetail: PerformanceDetailModel,
@@ -35,6 +36,8 @@ class PerformanceDetailView extends React.Component<any, {
             this.setState({
                 performanceDetail: data
             })
+            // @ts-ignore
+            RouterManager.updateNavigatorTitle(data.damaiProject.projectName)
             const damaiProjectPerformRespList = data.damaiProjectPerformRespList;
             if (damaiProjectPerformRespList && damaiProjectPerformRespList.length > 0){
                 const [{damaiProjectPerform}] = damaiProjectPerformRespList;
