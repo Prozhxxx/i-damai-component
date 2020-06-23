@@ -8,6 +8,8 @@ import NetworkInvoice from "@/network/NetworkInvoice";
 import NetworkCity from "@/network/NetworkCity";
 import CityPicker from "@/components/city.picker";
 import RouterManager from "@/util/RouterManager";
+import AlertManager from "@/util/AlertManager";
+import NumberTool from "@/tool/NumberTool";
 
 const currHeight = {
     height: window.screen.height - 49 + 'px'
@@ -121,8 +123,12 @@ class InvoiceIndexView extends React.Component<any, {
                 const {history} = this.props;
                 push(history, '/invoice-list');
             }}>
-            开票历史
-        </div>)
+                开票历史
+            </div>)
+    }
+
+    onShowAlert(message) {
+        AlertManager.showAlert(message)
     }
 
     moreInfoMessage(data) {
@@ -152,27 +158,27 @@ class InvoiceIndexView extends React.Component<any, {
     onClickShowSubmitAlert() {
         const {isCheckedCo, invoiceMessage} = this.state;
         if (StringTool.isEmpty(invoiceMessage.title)) {
-            console.log('发票抬头');
+            this.onShowAlert('请填写发票抬头');
             return
         }
         if (isCheckedCo && StringTool.isEmpty(invoiceMessage.taxNo)) {
-            console.log('发票税号');
+            this.onShowAlert('请填写发票税号');
             return
         }
         if (StringTool.isEmpty(invoiceMessage.name)) {
-            console.log('收件人');
+            this.onShowAlert('请填写收件人');
             return
         }
         if (StringTool.isEmpty(invoiceMessage.area)) {
-            console.log('所在地区');
+            this.onShowAlert('请选择所在地区');
             return
         }
         if (StringTool.isEmpty(invoiceMessage.address)) {
-            console.log('详细地址不少于4个字');
+            this.onShowAlert('详细地址不少于4个字');
             return
         }
-        if (!StringTool.isEmail(invoiceMessage.email)) {
-            console.log('请输入正确邮箱');
+        if (!invoiceMessage.email || !StringTool.isEmail(invoiceMessage.email)) {
+            this.onShowAlert('请输入正确邮箱');
             this.setState({
                 invoiceMessage: {
                     ...invoiceMessage,
@@ -181,8 +187,8 @@ class InvoiceIndexView extends React.Component<any, {
             });
             return
         }
-        if (!StringTool.isMobile(invoiceMessage.phone.toString())) {
-            console.log('请输入正确手机号');
+        if (!invoiceMessage.phone || !StringTool.isMobile(invoiceMessage.phone.toString())) {
+            this.onShowAlert('请输入正确手机号');
             this.setState({
                 invoiceMessage: {
                     ...invoiceMessage,
@@ -223,12 +229,12 @@ class InvoiceIndexView extends React.Component<any, {
     onClickInvoiceSubmit() {
         const {history} = this.props;
         const {isCheckedCo, invoiceMessage, moreInfo} = this.state;
-        const {orderId, price} = getParams(this.props.location);
+        const {orderId} = getParams(this.props.location);
         NetworkInvoice.useParams('openId').applyForInvoice({
             type: isCheckedCo ? 1 : 2,
             title: invoiceMessage.title,
             taxNo: invoiceMessage.taxNo,
-            orderId: '325596695234609152',
+            orderId: '325350381930414080', //  orderId,
             name: invoiceMessage.name,
             phone: invoiceMessage.phone,
             area: invoiceMessage.area,
@@ -249,7 +255,8 @@ class InvoiceIndexView extends React.Component<any, {
 
     renderInvoiceMessage() {
         const {onClickMoreInfo, onClickCheckBox} = this;
-        const {isCheckedCo, checkImg, checkedImg, moreInfoString} = this.state;
+        const {invoiceMessage, isCheckedCo, checkImg, checkedImg, moreInfoString} = this.state;
+        const {price} = getParams(this.props.location);
         return (
             <div className="ticket-content">
                 <div className="item-area flex-middle-x">
@@ -265,25 +272,30 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-left">发票抬头</div>
                     <div className="item-right">
                         <input type="text" name="title"
+                               value={invoiceMessage.title}
                                onChange={e => {
                                    this.handleInputChange('title', e)
                                }}
                                placeholder="请填写发票抬头(必填)"/></div>
                 </div>
                 {
-                    isCheckedCo ?
-                        <div className="item-area flex-middle-x">
-                            <div className="item-left">发票税号</div>
-                            <div className="item-right"><input type="text" name="taxNo"
-                                                               onChange={e => {
-                                                                   this.handleInputChange('taxNo', e)
-                                                               }}
-                                                               placeholder="请填写纳税人识别号(必填)"/></div>
-                        </div> : ''
+                    isCheckedCo &&
+                    <div className="item-area flex-middle-x">
+                        <div className="item-left">发票税号</div>
+                        <div className="item-right"><input type="text" name="taxNo"
+                                                           value={invoiceMessage.taxNo}
+                                                           onChange={e => {
+                                                               this.handleInputChange('taxNo', e)
+                                                           }}
+                                                           placeholder="请填写纳税人识别号(必填)"/></div>
+                    </div>
                 }
                 <div className="item-area flex-middle-x">
                     <div className="item-left">发票金额</div>
-                    <div className="item-right title-price">88元</div>
+                    <div className="item-right title-price">
+                        {NumberTool.fixNumberTo(price ? price / 100 : 0, 2)}
+                        元
+                    </div>
                 </div>
                 <div className="item-area last-item-area flex-middle-x">
                     <div className="item-left">更多信息</div>
@@ -307,6 +319,7 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-area flex-middle-x">
                         <div className="item-left">收件人</div>
                         <div className="item-right"><input type="text" name="name"
+                                                           value={invoiceMessage.name}
                                                            onChange={e => {
                                                                this.handleInputChange('name', e)
                                                            }}
@@ -325,6 +338,7 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-area flex-middle-x">
                         <div className="item-left">电子邮箱</div>
                         <div className="item-right"><input type="text" name="email"
+                                                           value={invoiceMessage.email}
                                                            onChange={e => {
                                                                this.handleInputChange('email', e)
                                                            }}
@@ -338,6 +352,7 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-area last-item-area flex-middle-x">
                         <div className="item-left">详细地址</div>
                         <div className="item-right"><input type="text" name="address"
+                                                           value={invoiceMessage.address}
                                                            onChange={e => {
                                                                this.handleInputChange('address', e)
                                                            }}

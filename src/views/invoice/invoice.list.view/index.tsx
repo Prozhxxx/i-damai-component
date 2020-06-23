@@ -1,10 +1,11 @@
 import React from "react";
-import {useParams, withRouter} from "react-router";
+import {withRouter} from "react-router";
 import './index.scss';
 import {push} from "@/util/RouterManager";
 import NetworkInvoice from "@/network/NetworkInvoice";
 import NumberTool from "@/tool/NumberTool";
 import DateTool from "@/tool/DateTool";
+import cn from 'classnames';
 
 const currHeight = {
     height: window.screen.height - 49 + 'px'
@@ -35,7 +36,7 @@ class InvoiceListView extends React.Component<any, {
 
     }
 
-    componentDidMount() {
+    componentDidMount(): void {
         this.fetchInvoiceList()
     }
 
@@ -105,13 +106,12 @@ class InvoiceListView extends React.Component<any, {
                                                     dataFormat(data.createTime)
                                                 }
                                             </span>
-                                            {
-                                                data.deliveryType ?
-                                                    <span className="e-invoice">
-                                                    {deliveryType[data.deliveryType]}
-                                                    </span> :
-                                                    ''
-                                            }
+                                            {/*{*/}
+                                                {/*data.deliveryType &&*/}
+                                                    {/*<span className="e-invoice">*/}
+                                                    {/*{deliveryType[data.deliveryType]}*/}
+                                                    {/*</span> */}
+                                            {/*}*/}
                                         </div>
                                         <div className="item-right invoice-price">
                                             {

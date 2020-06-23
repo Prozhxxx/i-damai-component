@@ -12,6 +12,7 @@ interface ApplyForInvoice {
     createTime?: string,
     orderId?: string,
     expressNo?: number,
+    projectName?: string,
     amount?: number,
     tails?: {
         statusCN?: string

@@ -31,6 +31,7 @@ class InvoiceDetailView extends React.Component<any, {
                 remark: '',
                 createTime: '',
                 amount: 0,
+                projectName: '',
                 tails: {
                     statusCN: ''
                 }
@@ -193,7 +194,7 @@ class InvoiceDetailView extends React.Component<any, {
                     </li> : ''}
                     <li className="flex-middle-x">
                         <div className="left-item">发票内容</div>
-                        <div className="right-item">娱乐</div>
+                        <div className="right-item">{invoiceMsg.projectName}</div>
                     </li>
                     <li className="flex-middle-x">
                         <div className="left-item">发票金额</div>

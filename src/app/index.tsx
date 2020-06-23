@@ -9,6 +9,7 @@ import NetworkCity from "@/network/NetworkCity";
 import 'cola.css/dist/index.min.css';
 import AccountManager from "@/util/AccountManager";
 import Navigator from "@/components/navigator";
+import AlertInfo from "@/components/invoiceAlertInfo";
 import {NavigatorContext} from "@/util/Context";
 import NetworkAccount from "@/network/NetworkAccount";
 import RouterManager, {routes} from "@/util/RouterManager";
@@ -23,7 +24,7 @@ class App extends React.Component<any, {
     locationCityStatus: string,
     cityList: CityModel[],
     loadOpenIdFinish: boolean
-}>{
+}> {
     constructor(props) {
         super(props);
         this.state = {
@@ -34,7 +35,7 @@ class App extends React.Component<any, {
         }
     }
 
-    prepareAccount(){
+    prepareAccount() {
         return NetworkAccount.decrypt(AccountManager.accountSecret()).then(accont => {
             console.log(accont);
             return NetworkAccount.login(JSON.stringify({openId: accont.userid, type: ''}))
@@ -56,7 +57,7 @@ class App extends React.Component<any, {
         const getTitle = (location) => {
             const {pathname} = location;
             let title = '';
-            if (pathname){
+            if (pathname) {
                 title = routes.find(route => route.path === pathname)?.title ?? '';
             }
             return title;
@@ -76,14 +77,14 @@ class App extends React.Component<any, {
                 this.setState(state, resolve)
             })
         };
-        await setStatePromise({ locationStatus: 'pending' });
+        await setStatePromise({locationStatus: 'pending'});
         LocationManager.defaultManager().getLocation().then(data => {
-            return setStatePromise({ locationStatus: 'success' })
+            return setStatePromise({locationStatus: 'success'})
         }, error => {
             console.log(error);
-            return setStatePromise({ locationStatus: 'failure' })
+            return setStatePromise({locationStatus: 'failure'})
         }).finally(async () => {
-            await setStatePromise( {locationCityStatus: 'pending'} )
+            await setStatePromise({locationCityStatus: 'pending'})
             NetworkCity.useParams('coordinate').cityByCoordinate().then(data => {
                 const city = {
                     cityId: data.id,
@@ -138,7 +139,7 @@ class App extends React.Component<any, {
 
     render() {
         const {locationCityStatus, cityList, loadOpenIdFinish} = this.state;
-        const {isShowCityLayer, navigator} = this.props;
+        const {isShowCityLayer, navigator, isShowAlert} = this.props;
         if (locationCityStatus !== 'success' && locationCityStatus !== 'failure') {
             return null;
         }
@@ -146,6 +147,7 @@ class App extends React.Component<any, {
         return (
             <NavigatorContext.Provider value={navigator}>
                 <div className="App">
+                    {isShowAlert && <AlertInfo/>}
                     <Navigator history={history}/>
                     {isShowCityLayer ? <CityLayer cityList={cityList}/> : this.renderRouter()}
                 </div>
@@ -158,6 +160,7 @@ export default connect(
     state => ({
         isShowCityLayer: state['ui']['layer']['cityLayer'],
         navigator: state['ui']['navigator'],
+        isShowAlert: state['ui']['alert']['isShow']
     }),
 )(App);
 

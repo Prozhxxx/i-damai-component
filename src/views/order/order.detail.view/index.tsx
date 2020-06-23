@@ -2,12 +2,12 @@ import React from "react";
 import cn from "classnames";
 import FontIcon from "@/components/font.icon";
 import NetworkMine from "@/network/NetworkMine";
-import {getParams} from "@/util/RouterManager";
+import {getParams, push} from "@/util/RouterManager";
 import {withRouter} from 'react-router';
 import {navigatorWrapper} from "@/components/navigatorWrapper";
 import './index.scss';
 
-class OrderDetailView extends React.Component<any, any>{
+class OrderDetailView extends React.Component<any, any> {
 
 
     componentDidMount(): void {
@@ -16,7 +16,7 @@ class OrderDetailView extends React.Component<any, any>{
         // this.fetchOrderDetail()
     }
 
-    async fetchOrderDetail(orderId){
+    async fetchOrderDetail(orderId) {
         return NetworkMine.useParams('openId').orderDetail(orderId).then(data => {
             console.log(data);
             return data;
@@ -25,7 +25,15 @@ class OrderDetailView extends React.Component<any, any>{
         })
     }
 
-    renderStatusInfoBlock(){
+    onClickInvoice() {
+        const {history} = this.props;
+        push(history, '/invoice-index', {
+            price: 1000,
+            orderId: '186464651616'
+        });
+    }
+
+    renderStatusInfoBlock() {
         return (
             <div className={cn('status-info')}>
                 <div className={cn('status')}>待支付￥360.0</div>
@@ -38,7 +46,7 @@ class OrderDetailView extends React.Component<any, any>{
         )
     }
 
-    renderPerformanceInfoBlock(){
+    renderPerformanceInfoBlock() {
         return (
             <div className={cn('performance-info')}>
                 <div className={cn('performance flex-x')}>
@@ -83,7 +91,7 @@ class OrderDetailView extends React.Component<any, any>{
         );
     }
 
-    renderDeliveryInfoBlock(){
+    renderDeliveryInfoBlock() {
         return (
             <div className={cn('delivery-info')}>
                 <div className={cn('item flex-middle-x')}>
@@ -98,16 +106,17 @@ class OrderDetailView extends React.Component<any, any>{
         );
     }
 
-    renderInvoiceInfoBlock(){
+    renderInvoiceInfoBlock() {
+        const {onClickInvoice} = this;
         return (
-            <div className={cn('invoice-info')}>
+            <div className={cn('invoice-info')} onClick={onClickInvoice.bind(this)}>
                 <div className={cn('title')}>开具发票</div>
                 <div className={cn('content')}>请填写发票信息</div>
             </div>
         );
     }
 
-    renderOrderInfoBlock(){
+    renderOrderInfoBlock() {
         return (
             <div className={cn('order-info')}>
                 <div className={cn('title')}>订单信息</div>
@@ -123,7 +132,7 @@ class OrderDetailView extends React.Component<any, any>{
         );
     }
 
-    render(){
+    render() {
         return (
             <div className={cn('order-detail-view')}>
                 <div>{this.renderStatusInfoBlock()}</div>

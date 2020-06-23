@@ -182,12 +182,16 @@
     bottom: 0;
     height: 62px;
     width: 100vw;
+    z-index: 1;
+
+    .btn {
+      width: 90vw;
+    }
   }
 
   .btn {
     background-color: #4190e9;
     color: #fff;
-    width: 90vw;
     height: 44px;
     line-height: 46px;
     border-radius: 2px;
