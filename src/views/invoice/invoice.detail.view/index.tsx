@@ -112,10 +112,10 @@ class InvoiceDetailView extends React.Component<any, {
                         <div className="left-item">发票抬头</div>
                         <div className="right-item">{invoiceMsg.title}</div>
                     </li>
-                    {invoiceMsg.taxNo ? <li className="flex-middle-x">
+                    {invoiceMsg.taxNo && <li className="flex-middle-x">
                         <div className="left-item">发票税号</div>
                         <div className="right-item">{invoiceMsg.taxNo}</div>
-                    </li> : ''}
+                    </li>}
                     <li className="flex-middle-x">
                         <div className="left-item">发票内容</div>
                         <div className="right-item">娱乐</div>
@@ -160,12 +160,12 @@ class InvoiceDetailView extends React.Component<any, {
                         <div className="right-item">顺丰</div>
                     </li>
                     {
-                        invoiceMsg.expressNo ? <li className="flex-middle-x">
+                        invoiceMsg.expressNo && <li className="flex-middle-x">
                             <div className="left-item">快递单号</div>
                             <div className="right-item">{invoiceMsg.expressNo} <span className="copy-btn"
                                                                                      onClick={onClickCopy.bind(this)}>复制</span>
                             </div>
-                        </li> : ''
+                        </li>
                     }
                     <li className="flex-middle-x">
                         <div className="left-item">收件人</div>
@@ -188,10 +188,10 @@ class InvoiceDetailView extends React.Component<any, {
                         <div className="left-item">发票抬头</div>
                         <div className="right-item">{invoiceMsg.title}</div>
                     </li>
-                    {invoiceMsg.taxNo ? <li className="flex-middle-x">
+                    {invoiceMsg.taxNo && <li className="flex-middle-x">
                         <div className="left-item">发票税号</div>
                         <div className="right-item">{invoiceMsg.taxNo}</div>
-                    </li> : ''}
+                    </li>}
                     <li className="flex-middle-x">
                         <div className="left-item">发票内容</div>
                         <div className="right-item">{invoiceMsg.projectName}</div>

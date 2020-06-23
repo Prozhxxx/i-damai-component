@@ -372,7 +372,7 @@ class InvoiceIndexView extends React.Component<any, {
         const {isCheckedCo, showSubmitAlert, invoiceMessage} = this.state;
         const {onClickShowSubmitAlert, onClickInvoiceSubmit} = this;
         return (
-            showSubmitAlert ? <div className="alert-content">
+            showSubmitAlert && <div className="alert-content">
                 <div className="submit-content">
                     <div className="title flex-center-x">
                         确认提交
@@ -383,11 +383,11 @@ class InvoiceIndexView extends React.Component<any, {
                         <div className="item-right">{invoiceMessage.title}</div>
                     </div>
                     {
-                        isCheckedCo ?
-                            <div className="item-area flex-middle-x">
-                                <div className="item-left">发票税号</div>
-                                <div className="item-right">{invoiceMessage.taxNo}</div>
-                            </div> : ''
+                        isCheckedCo &&
+                        <div className="item-area flex-middle-x">
+                            <div className="item-left">发票税号</div>
+                            <div className="item-right">{invoiceMessage.taxNo}</div>
+                        </div>
                     }
                     <div className="item-area flex-middle-x">
                         <div className="item-left">电子邮箱</div>
@@ -408,7 +408,7 @@ class InvoiceIndexView extends React.Component<any, {
                         提交
                     </div>
                 </div>
-            </div> : ''
+            </div>
         )
     }
 
