@@ -1,22 +1,25 @@
 import React from "react";
-import {useParams, withRouter} from "react-router";
-import {pop, push} from "@/util/RouterManager";
-import Navigator from "@/components/navigatorInvoice";
-import CityScroll from "@/components/invoiceCityScrioll";
+import {withRouter} from 'react-router';
+import {getParams, pop, push} from "@/util/RouterManager";
 import InvoiceMoreInfo from "@/components/invoiceMoreInfo";
 import StringTool from "@/tool/StringTool";
 import './index.scss';
 import NetworkInvoice from "@/network/NetworkInvoice";
-import {object} from "prop-types";
+import NetworkCity from "@/network/NetworkCity";
+import CityPicker from "@/components/city.picker";
+import RouterManager from "@/util/RouterManager";
 
 const currHeight = {
     height: window.screen.height - 49 + 'px'
 }
 
-type srcollF = () => void;
+let currProps;
 
 class InvoiceIndexView extends React.Component<any, {
-    navigatorMessage: InvoiceNavigatorModel,
+    cityTree: any,
+    province: ProvinceTreeModel,
+    city: CityTreeModel,
+    area: AreaTreeModel,
     invoiceMessage: ApplyForInvoice,
     moreInfo: InvoiceMoreInfos
     moreInfoString: string
@@ -29,21 +32,19 @@ class InvoiceIndexView extends React.Component<any, {
 }> {
     constructor(props) {
         super(props);
+        currProps = this.props;
         this.state = {
-            navigatorMessage: {
-                isShowLeft: false,
-                isShowCenter: true,
-                centerText: '开发票',
-                isShowRight: true,
-                rightText: '开票历史'
-            },
+            cityTree: null,
+            province: null,
+            city: null,
+            area: null,
             invoiceMessage: {
                 deliveryType: 0,
                 type: 0,
                 title: '',
                 taxNo: '',
                 name: '',
-                phone: 0,
+                phone: '',
                 area: '',
                 address: '',
                 email: '',
@@ -67,6 +68,20 @@ class InvoiceIndexView extends React.Component<any, {
         this.handleInputChange = this.handleInputChange.bind(this)
     }
 
+    componentDidMount(): void {
+        NetworkCity.cityTree().then(cityTree => {
+            this.setState({
+                cityTree,
+                province: cityTree?.[0],
+                city: cityTree?.[0].cityList?.[0],
+                area: cityTree?.[0].cityList?.[0].areaList?.[0],
+            });
+        }, error => {
+            console.log(error);
+        })
+        this.navRightItem()
+    }
+
     handleInputChange(key, event) {
         const target = event.target;
         const value = target.value;
@@ -78,12 +93,41 @@ class InvoiceIndexView extends React.Component<any, {
         });
     }
 
+    onHandleCityPickerChange(type, obj, update) {
+        let {province, city, area, cityTree} = this.state;
+        if (type === 'province') {
+            province = obj;
+            city = province?.cityList?.[0];
+            area = city?.areaList?.[0];
+        }
+        if (type === 'city') {
+            city = obj;
+            area = city?.areaList?.[0];
+        }
+        if (type === 'area') {
+            area = obj;
+        }
+        console.log(province, city, area)
+        this.setState({
+            province,
+            city,
+            area
+        });
+    }
+
+    navRightItem() {
+        RouterManager.updateNavigatorItem(null,
+            <div className="nav-right" onClick={() => {
+                const {history} = this.props;
+                push(history, '/invoice-list');
+            }}>
+            开票历史
+        </div>)
+    }
 
     moreInfoMessage(data) {
         this.setState({
-                moreInfo: {
-                    ...data
-                }
+                moreInfo: data
             },
             () => {
                 const {moreInfo} = this.state;
@@ -106,27 +150,68 @@ class InvoiceIndexView extends React.Component<any, {
     }
 
     onClickShowSubmitAlert() {
-        const {invoiceMessage} = this.state;
-        // if (!StringTool.isMobile(invoiceMessage.phone.toString())) {
-        //     console.log('请输入正确手机号');
-        //     this.setState({
-        //         invoiceMessage: {
-        //             ...invoiceMessage,
-        //             phone: 0
-        //         }
-        //     });
-        //     return
-        // }
+        const {isCheckedCo, invoiceMessage} = this.state;
+        if (StringTool.isEmpty(invoiceMessage.title)) {
+            console.log('发票抬头');
+            return
+        }
+        if (isCheckedCo && StringTool.isEmpty(invoiceMessage.taxNo)) {
+            console.log('发票税号');
+            return
+        }
+        if (StringTool.isEmpty(invoiceMessage.name)) {
+            console.log('收件人');
+            return
+        }
+        if (StringTool.isEmpty(invoiceMessage.area)) {
+            console.log('所在地区');
+            return
+        }
+        if (StringTool.isEmpty(invoiceMessage.address)) {
+            console.log('详细地址不少于4个字');
+            return
+        }
+        if (!StringTool.isEmail(invoiceMessage.email)) {
+            console.log('请输入正确邮箱');
+            this.setState({
+                invoiceMessage: {
+                    ...invoiceMessage,
+                    email: ''
+                }
+            });
+            return
+        }
+        if (!StringTool.isMobile(invoiceMessage.phone.toString())) {
+            console.log('请输入正确手机号');
+            this.setState({
+                invoiceMessage: {
+                    ...invoiceMessage,
+                    phone: ''
+                }
+            });
+            return
+        }
         this.setState({
             showSubmitAlert: !this.state.showSubmitAlert
         })
     }
 
     onClickCityAlert() {
-        console.log(this.state.showCityAlert);
         this.setState({
             showCityAlert: !this.state.showCityAlert
         })
+    }
+
+    onClickCheckedCity() {
+        const {province, city, area} = this.state;
+        this.setState({
+            showCityAlert: false,
+            invoiceMessage: {
+                ...this.state.invoiceMessage,
+                area: province.name + city.name + area.name
+            }
+        })
+        console.log(this.state.invoiceMessage)
     }
 
     onClickCheckBox() {
@@ -135,24 +220,19 @@ class InvoiceIndexView extends React.Component<any, {
         })
     }
 
-
-    onClickHistoryInvoice() {
-        const {history} = this.props;
-        push(history, '/invoice-list', {});
-    }
-
     onClickInvoiceSubmit() {
         const {history} = this.props;
         const {isCheckedCo, invoiceMessage, moreInfo} = this.state;
+        const {orderId, price} = getParams(this.props.location);
         NetworkInvoice.useParams('openId').applyForInvoice({
             type: isCheckedCo ? 1 : 2,
             title: invoiceMessage.title,
             taxNo: invoiceMessage.taxNo,
-            orderId: '325956835171368960',
+            orderId: '325596695234609152',
             name: invoiceMessage.name,
             phone: invoiceMessage.phone,
-            area: '上海市闵行区', // invoiceMessage.area,
-            address: '宜山路1618号c308',// invoiceMessage.address,
+            area: invoiceMessage.area,
+            address: invoiceMessage.address,
             email: invoiceMessage.email,
             remark: invoiceMessage.remark,
             registerAddress: moreInfo.registerAddr,
@@ -220,6 +300,7 @@ class InvoiceIndexView extends React.Component<any, {
 
     renderUserMessage() {
         const {onClickCityAlert, onClickShowSubmitAlert} = this
+        const {invoiceMessage} = this.state
         return (
             <div>
                 <div className="user-content">
@@ -234,6 +315,7 @@ class InvoiceIndexView extends React.Component<any, {
                     <div className="item-area flex-middle-x">
                         <div className="item-left">联系电话</div>
                         <div className="item-right"><input type="tel" name="phone"
+                                                           value={invoiceMessage.phone}
                                                            onChange={e => {
                                                                this.handleInputChange('phone', e)
                                                            }}
@@ -250,6 +332,7 @@ class InvoiceIndexView extends React.Component<any, {
                     </div>
                     <div className="item-area flex-middle-x" onClick={onClickCityAlert.bind(this)}>
                         <div className="item-left">所在地区</div>
+                        <div className="item-right ellipsis-text">{invoiceMessage.area}</div>
                         <img className="item-icon" src={require('../img/right-icon.png')}/>
                     </div>
                     <div className="item-area last-item-area flex-middle-x">
@@ -270,7 +353,7 @@ class InvoiceIndexView extends React.Component<any, {
         )
     }
 
-    renderSubmiInvoiceMessage() {
+    renderSubmitInvoiceMessage() {
         const {isCheckedCo, showSubmitAlert, invoiceMessage} = this.state;
         const {onClickShowSubmitAlert, onClickInvoiceSubmit} = this;
         return (
@@ -314,9 +397,36 @@ class InvoiceIndexView extends React.Component<any, {
         )
     }
 
+    renderCityMessage() {
+        const {onClickCityAlert, onClickCheckedCity} = this;
+        const {showCityAlert, cityTree, province, city, area} = this.state;
+        return (
+            showCityAlert &&
+            <div className="alert-content">
+                <div className="scroll-city">
+                    <div className="scroll-city-title flex-middle-x">
+                        <div className="left-item" onClick={onClickCityAlert.bind(this)}>
+                            取消
+                        </div>
+                        <div className="right-item" onClick={onClickCheckedCity.bind(this)}>
+                            完成
+                        </div>
+                    </div>
+                    <div className="scroll-city-content flex-middle-x">
+                        {cityTree && <CityPicker cityTree={cityTree}
+                                                 onHandleChange={this.onHandleCityPickerChange.bind(this)}
+                                                 province={province}
+                                                 city={city}
+                                                 area={area}/>}
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     render() {
-        const {navigatorMessage, showCityAlert, showMoreInfo, moreInfo} = this.state;
-        const {onClickHistoryInvoice, onClickCityAlert, onClickMoreInfo, moreInfoMessage} = this;
+        const {showMoreInfo, moreInfo} = this.state;
+        const {onClickMoreInfo, moreInfoMessage} = this;
         return (
             <div className="invoice-index-view" style={currHeight}>
                 {
@@ -324,15 +434,10 @@ class InvoiceIndexView extends React.Component<any, {
                         <InvoiceMoreInfo moreInfo={moreInfo} showInfo={onClickMoreInfo.bind(this)}
                                          infoFn={moreInfoMessage.bind(this)}></InvoiceMoreInfo> :
                         <div>
-                            <Navigator navigatorMessage={navigatorMessage}
-                                       onClickOther={onClickHistoryInvoice.bind(this)}>
-                            </Navigator>
                             {this.renderInvoiceMessage()}
                             {this.renderUserMessage()}
-                            {this.renderSubmiInvoiceMessage()}
-                            <CityScroll showCityAlert={showCityAlert}
-                                        onClickShow={onClickCityAlert.bind(this)}>
-                            </CityScroll>
+                            {this.renderSubmitInvoiceMessage()}
+                            {this.renderCityMessage()}
                         </div>
 
                 }

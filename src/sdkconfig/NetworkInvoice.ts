@@ -20,5 +20,11 @@ export default {
     },
     invoiceList: {
         methodName: 'Y10071'
+    },
+    invoiceDetail: {
+        methodName: 'Y10072',
+        params: {
+            invoiceId: true
+        }
     }
 }

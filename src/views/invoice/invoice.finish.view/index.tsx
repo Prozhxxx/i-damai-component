@@ -1,8 +1,7 @@
 import React from "react";
-import {useParams, withRouter} from "react-router";
+import {withRouter} from "react-router";
 import './index.scss';
 import {push} from "@/util/RouterManager";
-import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 class InvoiceFinishView extends React.Component<any, {}> {
     constructor(props) {
@@ -37,4 +36,4 @@ class InvoiceFinishView extends React.Component<any, {}> {
     }
 }
 
-export default withRouter(navigatorWrapper(InvoiceFinishView, '提交成功'));
+export default withRouter(InvoiceFinishView);

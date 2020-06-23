@@ -1,6 +1,13 @@
+
+.nav-right {
+  color: #666;
+  font-size: 14px;
+}
+
 .invoice-index-view {
   background-color: #f4f4f4;
   width: 100vw;
+
 
   .ticket-content, .user-content, .submit-content {
     background-color: #fff;
@@ -127,6 +134,44 @@
       .btn {
         margin: 5px 0 10px 0;
         border-bottom: none;
+      }
+    }
+
+    .scroll-city {
+      background-color: #fff;
+      width: 100vw;
+      height: 150px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+
+      .scroll-city-title {
+        background-color: #f4f4f4;
+        height: 30px;
+        padding: 0 15px;
+        color: #4190e9;
+
+        .left-item {
+          width: 50%;
+          text-align: left;
+        }
+
+        .right-item {
+          width: 50%;
+          text-align: right;
+        }
+      }
+
+
+      .scroll-tip-box {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 130px;
+        border: 1px solid #0091f0;
+        width: 100vw;
+        height: 30px;
+        line-height: 30px;
       }
     }
   }

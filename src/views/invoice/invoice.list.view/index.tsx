@@ -1,9 +1,7 @@
 import React from "react";
 import {useParams, withRouter} from "react-router";
-// import Navigator from "@/components/navigatorInvoice";
 import './index.scss';
 import {push} from "@/util/RouterManager";
-import {navigatorWrapper} from "@/components/navigatorWrapper";
 import NetworkInvoice from "@/network/NetworkInvoice";
 import NumberTool from "@/tool/NumberTool";
 import DateTool from "@/tool/DateTool";
@@ -37,19 +35,20 @@ class InvoiceListView extends React.Component<any, {
 
     }
 
-    componentWillMount() {
-        this.onClickInvoiceList()
+    componentDidMount() {
+        this.fetchInvoiceList()
     }
 
-    onClickDetail(type) {
+    onClickDetail(type, invoiceId) {
         const {history} = this.props;
         push(history, '/invoice-detail', {
-            invoiceType: type
+            invoiceType: type ? type : 0,
+            invoiceId: invoiceId
         });
     }
 
-    onClickInvoiceList() {
-        NetworkInvoice.useParams('openId').invoiceList({}).then((ret) => {
+    fetchInvoiceList() {
+        NetworkInvoice.useParams('openId').invoiceList().then((ret) => {
             if (ret) {
                 this.setState({
                     invoiceList: {
@@ -86,7 +85,7 @@ class InvoiceListView extends React.Component<any, {
                         invoiceList[data].map((data) => {
                             return (
                                 <ul className="list-item" key={data.id}
-                                    onClick={onClickDetail.bind(this, data.deliveryType)}>
+                                    onClick={onClickDetail.bind(this, data.deliveryType, data.id)}>
                                     <li className="flex-middle-x">
                                         <div className="item-left ellipsis-text">{
                                             data.projectName
@@ -106,10 +105,13 @@ class InvoiceListView extends React.Component<any, {
                                                     dataFormat(data.createTime)
                                                 }
                                             </span>
-                                            {/*<span>2020年03月28日 21:47</span>*/}
-                                            <span className="e-invoice">
-                                                {deliveryType[data.deliveryType]}
-                                            </span>
+                                            {
+                                                data.deliveryType ?
+                                                    <span className="e-invoice">
+                                                    {deliveryType[data.deliveryType]}
+                                                    </span> :
+                                                    ''
+                                            }
                                         </div>
                                         <div className="item-right invoice-price">
                                             {
@@ -125,7 +127,7 @@ class InvoiceListView extends React.Component<any, {
                 </div>
             )
         })
-        console.log(count);
+
         return (
             <div className="invoice-area">
                 {
@@ -148,4 +150,4 @@ class InvoiceListView extends React.Component<any, {
     }
 }
 
-export default withRouter(navigatorWrapper(InvoiceListView, '开票历史'));
+export default withRouter(InvoiceListView);

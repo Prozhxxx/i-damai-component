@@ -37,7 +37,8 @@ class InvoiceMoreInfo extends React.Component<any, {
     }
 
     renderTicketMessage() {
-        const {showInfo, moreInfo} = this.props;
+        const {showInfo} = this.props;
+        const {tempMoreInfo} = this.state;
         return (
             <div className="info-content">
                 <div className="nav-title flex-middle-x">
@@ -49,7 +50,7 @@ class InvoiceMoreInfo extends React.Component<any, {
                 <div className="item-area flex-middle-x">
                     <div className="item-left">注册地址</div>
                     <div className="item-right"><input type="text" name="registerAddr"
-                                                       defaultValue={moreInfo.registerAddr}
+                                                       value={tempMoreInfo.registerAddr}
                                                        onChange={e => {
                                                            this.handleInputChange('registerAddr', e)
                                                        }}/></div>
@@ -57,7 +58,7 @@ class InvoiceMoreInfo extends React.Component<any, {
                 <div className="item-area flex-middle-x">
                     <div className="item-left">注册电话</div>
                     <div className="item-right"><input type="tel" name="registerTel"
-                                                       defaultValue={moreInfo.registerTel || ''}
+                                                       value={tempMoreInfo.registerTel || ''}
                                                        onChange={e => {
                                                            this.handleInputChange('registerTel', e)
                                                        }}/></div>
@@ -65,7 +66,7 @@ class InvoiceMoreInfo extends React.Component<any, {
                 <div className="item-area flex-middle-x">
                     <div className="item-left">开户银行</div>
                     <div className="item-right"><input type="text" name="registerBank"
-                                                       defaultValue={moreInfo.registerBank}
+                                                       value={tempMoreInfo.registerBank}
                                                        onChange={e => {
                                                            this.handleInputChange('registerBank', e)
                                                        }}/></div>
@@ -73,7 +74,7 @@ class InvoiceMoreInfo extends React.Component<any, {
                 <div className="item-area flex-middle-x">
                     <div className="item-left">银行账号</div>
                     <div className="item-right"><input type="text" name="bankNo"
-                                                       defaultValue={moreInfo.bankNo || ''}
+                                                       value={tempMoreInfo.bankNo || ''}
                                                        onChange={e => {
                                                            this.handleInputChange('bankNo', e)
                                                        }}/></div>
@@ -82,7 +83,7 @@ class InvoiceMoreInfo extends React.Component<any, {
                     <div className="item-left">备注信息</div>
                     <div className="item-right">
                         <input type="text" name="message"
-                               defaultValue={moreInfo.message}
+                               defaultValue={tempMoreInfo.message}
                                onChange={e => {
                                    this.handleInputChange('message', e)
                                }}/>

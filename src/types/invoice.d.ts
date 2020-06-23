@@ -1,23 +1,22 @@
-interface InvoiceNavigatorModel {
-    isShowLeft: Boolean,
-    leftText?: String,
-    isShowCenter: Boolean,
-    centerText?: String,
-    isShowRight: Boolean,
-    rightText?: String
-}
-
 interface ApplyForInvoice {
-    deliveryType: number,
-    type: number,
+    deliveryType?: number,
+    type?: number,
     title: string,
     taxNo: string,
     name: string,
-    phone: number,
+    phone: string,
     area: string,
     address: string,
     email: string,
-    remark: string
+    remark?: string,
+    createTime?: string,
+    orderId?: string,
+    expressNo?: number,
+    amount?: number,
+    tails?: {
+        statusCN?: string
+    },
+
 }
 
 interface InvoiceMoreInfos {

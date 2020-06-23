@@ -148,22 +148,22 @@ export const routes = [{
 }, {
     path: '/invoice-index',
     component: InvoiceIndexView,
-    title: '',
+    title: '开发票',
     exact: true,
 }, {
     path: '/invoice-list',
     component: InvoiceListView,
-    title: '',
+    title: '开票历史',
     exact: true,
 }, {
     path: '/invoice-detail',
     component: InvoiceDetailView,
-    title: '',
+    title: '发票详情',
     exact: true,
 },{
     path: '/invoice-finish',
     component: InvoiceFinishView,
-    title: '',
+    title: '提交成功',
     exact: true,
 }, {
     path: '/order-detail',
