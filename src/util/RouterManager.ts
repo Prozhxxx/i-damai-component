@@ -100,12 +100,14 @@ const flat = (r, p?) => {
     return [r]
 };
 
+
 export const routes = [{
     path: '/',
     component: HomeView,
     title: '首页',
     exact: true,
 }, {
+    name: 'Buyer',
     path: '/buyer',
     component: BuyerView,
     title: '购票人',
@@ -116,6 +118,7 @@ export const routes = [{
     title: '地址',
     exact: true,
 }, {
+    name: 'AddBuyer',
     path: '/add-buyer',
     component: AddBuyerView,
     title: '添加购票人',
@@ -177,20 +180,25 @@ export const routes = [{
     title: '确认订单',
     exact: false,
     children: [{
+        name: 'SelectAddress',
         path: '/address',
         component: AddressView,
         title: '选择地址',
         exact: false,
     }, {
+        name: 'SelectBuyer',
         path: '/buyer',
         component: BuyerView,
         title: '选择购票人',
         exact: false,
     }]
-}].flatMap(r => flat(r));
+}].flatMap(r => flat(r)) as RouteModel[];
 
 
-export const getRoute = (routeName: string) => {
-    return routes.find(route => route.name === routeName)
-}
+export const getRoute = (routeName: string): RouteModel[] => {
+    if (/.*\|.*/g.test(routeName)){
+        return routeName.split('|').map(routeName => routes.find(route => route.name === routeName))
+    }
+    return routes.filter(route => route.name === routeName)
+};
 

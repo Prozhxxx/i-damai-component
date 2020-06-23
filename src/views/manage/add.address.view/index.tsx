@@ -56,7 +56,7 @@ class AddAddressView extends React.Component<RouteComponentProps, {
             phone,
         };
         NetworkMine.useParams('openId').addAddress(params).then(data => {
-            console.log(data);
+            window.eventTarget.dispatchEvent(new Event('RefreshAddressList'));
             pop(this);
         }, error => {
             console.log(error);

@@ -1,5 +1,4 @@
 import React from "react";
-import RouterManager from "@/util/RouterManager";
 
 
 export function navigatorWrapper(WrappedComponent, title?):

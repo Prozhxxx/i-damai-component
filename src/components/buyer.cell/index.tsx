@@ -20,11 +20,11 @@ class BuyerCell extends React.Component<{
         };
         let covers = '';
         if (isMiddle){
-            covers = cover.repeat(targetString.length - (isHemi ? 1 : 2) * edgeCount);
+            covers = cover.repeat(Math.max(targetString.length - (isHemi ? 1 : 2) * edgeCount, 0));
             return `${targetString.slice(0, edgeCount)}${covers}${targetString.slice(targetString.length - edgeCount)}`
         } else {
             covers = cover.repeat(edgeCount);
-            return `${covers}${targetString.slice(edgeCount, targetString.length - (isHemi ? 0 : 1) * edgeCount)}${isHemi?'':covers}`
+            return `${covers}${targetString.slice(edgeCount, Math.max(targetString.length - (isHemi ? 0 : 1) * edgeCount, edgeCount))}${isHemi?'':covers}`
         }
     }
 

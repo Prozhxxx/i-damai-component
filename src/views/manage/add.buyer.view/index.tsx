@@ -17,6 +17,9 @@ class AddBuyerView extends React.Component<RouteComponentProps, any>{
 
     onClickAddBuyer(){
         const {history} = this.props;
+        // window.eventTarget.dispatchEvent(new Event('RefreshBuyerList'));
+        // pop(history);
+        // return;
         const {userName, cardNo, phone} = this.state;
         if(userName === ''){
             console.log('姓名不可为空');
@@ -30,12 +33,14 @@ class AddBuyerView extends React.Component<RouteComponentProps, any>{
             console.log('联系方式不可为空');
             return;
         }
+
         NetworkMine.useParams('openId').addBuyer({
             cardType: '1',
             cardNo,
             userName,
             phone,
         }).then(data => {
+            window.eventTarget.dispatchEvent(new Event('RefreshBuyerList'));
             pop(history);
         }, error => {
             console.log(error);

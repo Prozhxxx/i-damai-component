@@ -6,6 +6,8 @@ import RouterManager, {push, getParams, pop} from "@/util/RouterManager";
 import BuyerCell from '@/components/buyer.cell';
 import {RouteComponentProps} from "react-router";
 import './index.scss';
+import {ChildrenPage} from "@/components/childrenPageWrapper";
+import AddBuyerView from "@/views/manage/add.buyer.view";
 
 type SelectedableBuyer = (BuyerModel & {selected: Boolean});
 
@@ -20,6 +22,7 @@ class BuyerView extends React.Component<RouteComponentProps<{}, {}, {
 }>{
 
     private buyerToken: string;
+    private unregisterCallback: () => void;
     constructor(props) {
         super(props);
         this.state = {
@@ -28,12 +31,35 @@ class BuyerView extends React.Component<RouteComponentProps<{}, {}, {
             selectable: false,
         };
         this.buyerToken = null;
+        this.unregisterCallback = null;
     }
 
     componentDidMount(): void {
         this.createMetadata();
         this.createRightItem();
-        this.fetchAddressList();
+        this.fetchBuyerList();
+        this.unregisterCallback = this.props.history.listen((
+            location,
+            action,
+        ) => {
+            if (location.pathname === '/order-confirm/buyer'){
+                const rightItem = (
+                    <div onClick={e => this.onClickOK()}>
+                        确定
+                    </div>
+                );
+                RouterManager.updateNavigatorItem(null, rightItem)
+            }
+        });
+        window.eventTarget.addEventListener('RefreshBuyerList', (e: Event) => {
+            this.fetchBuyerList()
+        });
+    }
+
+    componentWillUnmount(): void {
+        if (this.unregisterCallback){
+            this.unregisterCallback();
+        }
     }
 
     createMetadata(){
@@ -79,7 +105,7 @@ class BuyerView extends React.Component<RouteComponentProps<{}, {}, {
         this.setState({ buyerList })
     }
 
-    async fetchAddressList(){
+    async fetchBuyerList(){
         const {selectBuyerIdList = []} = this.props.location.state;
         return NetworkMine.useParams('openId').buyerList().then(data => {
             this.setState({
@@ -95,7 +121,7 @@ class BuyerView extends React.Component<RouteComponentProps<{}, {}, {
     }
     onClickAdd(){
         const {history} = this.props;
-        push(history,'/add-buyer');
+        push(history,'/order-confirm/buyer/add-buyer');
     }
 
     onClickMenu(index){
@@ -107,34 +133,42 @@ class BuyerView extends React.Component<RouteComponentProps<{}, {}, {
     render(){
         const {selectedMenuIndex, buyerList, selectable} = this.state;
         return (
-            <div className={cn('buyer-view')}>
-                {/*<div className={cn('head flex-middle-x')}>*/}
-                {/*    {['实名购票管理', '收件地址管理'].map((title, index) => {*/}
-                {/*        return (*/}
-                {/*            <div className={cn('menu', {active: selectedMenuIndex === index})}*/}
-                {/*                 key={title}*/}
-                {/*                 onClick={e => {this.onClickMenu(index)}}>*/}
-                {/*                {title}*/}
-                {/*            </div>*/}
-                {/*        )*/}
-                {/*    })}*/}
-                {/*</div>*/}
-                <div>
-                    {buyerList.map(buyer => {
-                        return (
-                            <BuyerCell key={buyer.id}
-                                       buyer={buyer}
-                                       className={cn('buyer-cell')}
-                                       onClick={e => this.onClickBuyerCell(buyer)}
-                                       selectable={selectable}
-                                       active={buyer.selected}/>
-                        )
-                    })}
+            <ChildrenPage location={this.props.location}
+                          pathname={'/order-confirm/buyer'}
+                          routes={[{
+                              component: AddBuyerView,
+                              title: '增加购票人',
+                              path: '/order-confirm/buyer/add-buyer'
+                          }]}>
+                <div className={cn('buyer-view')}>
+                    {/*<div className={cn('head flex-middle-x')}>*/}
+                    {/*    {['实名购票管理', '收件地址管理'].map((title, index) => {*/}
+                    {/*        return (*/}
+                    {/*            <div className={cn('menu', {active: selectedMenuIndex === index})}*/}
+                    {/*                 key={title}*/}
+                    {/*                 onClick={e => {this.onClickMenu(index)}}>*/}
+                    {/*                {title}*/}
+                    {/*            </div>*/}
+                    {/*        )*/}
+                    {/*    })}*/}
+                    {/*</div>*/}
+                    <div>
+                        {buyerList.map(buyer => {
+                            return (
+                                <BuyerCell key={buyer.id}
+                                           buyer={buyer}
+                                           className={cn('buyer-cell')}
+                                           onClick={e => this.onClickBuyerCell(buyer)}
+                                           selectable={selectable}
+                                           active={buyer.selected}/>
+                            )
+                        })}
+                    </div>
+                    <div className={cn('add-button')} onClick={e => {
+                        this.onClickAdd();
+                    }}>+ 新增</div>
                 </div>
-                <div className={cn('add-button')} onClick={e => {
-                    this.onClickAdd();
-                }}>+ 新增</div>
-            </div>
+            </ChildrenPage>
         );
     }
 }

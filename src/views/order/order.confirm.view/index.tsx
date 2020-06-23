@@ -1,8 +1,9 @@
 import React, {Fragment} from "react";
 import NetworkTrade from "@/network/NetworkTrade";
 import NetworkMine from "@/network/NetworkMine";
-import RouterManager, {getParams, getRoute, push} from "@/util/RouterManager";
-import {Route, Switch, withRouter} from 'react-router';
+import {getParams, getRoute, push} from "@/util/RouterManager";
+import {RouteComponentProps, withRouter} from 'react-router';
+import {ChildrenPage} from '@/components/childrenPageWrapper';
 import FontIcon from "@/components/font.icon";
 import NetworkPerformance from "@/network/NetworkPerformance";
 import cn from 'classnames';
@@ -21,22 +22,22 @@ enum DeliveryType {
 const ACCESS_WAY_LIST = [{
     name: '无纸化',
     isNoAccess: true,
-    deliveryType: 1
+    deliveryType: DeliveryType.NOPAPER
 }, {
     name: '自助换票',
     isNoAccess: true,
-    deliveryType: 3,
+    deliveryType: DeliveryType.GAIN,
 }, {
     name: '快递邮寄',
     isNoAccess: false,
-    deliveryType: 2,
+    deliveryType: DeliveryType.EXPORESS,
 }, {
     name: '门店自取',
     isNoAccess: false,
-    deliveryType: 4,
+    deliveryType: DeliveryType.SHOP,
 }];
 
-class OrderConfirmView extends React.Component<any, {
+class OrderConfirmView extends React.Component<RouteComponentProps, {
     projectId: string,
     performId: string,
     priceId: string,
@@ -313,10 +314,10 @@ class OrderConfirmView extends React.Component<any, {
                             }
                         </div>
                         {
-                             // (
-                                // <div className="icon-wrapper">
-                                //     <FontIcon icon={'iconcl-icon-right'} className={'icon'}/>
-                                // </div>
+                            // (
+                            // <div className="icon-wrapper">
+                            //     <FontIcon icon={'iconcl-icon-right'} className={'icon'}/>
+                            // </div>
                             // )
                         }
                     </div>
@@ -349,21 +350,6 @@ class OrderConfirmView extends React.Component<any, {
         )
     }
 
-    renderChildrenRouter(){
-        const orderRoute = getRoute('OrderConfirm');
-        return (
-            <Switch>
-                {orderRoute.children.map(route => {
-                    return (
-                        <route.component key={`${route.path}`}
-                                         path={`${route.path}`}>
-                        </route.component>
-                    )
-                })}
-            </Switch>
-        )
-    }
-
     render(){
         const state = this.getPerformSession();
         if (state === null){
@@ -377,40 +363,40 @@ class OrderConfirmView extends React.Component<any, {
         if (!isNaN(price)){
             totalPrice = UnitTool.formatPriceByFen(price);
         }
-        console.log(this.props.location.pathname);
-        if (this.props.location.pathname !== '/order-confirm'){
-            return this.renderChildrenRouter();
-        }
         return (
-            <div className={cn('order-confirm-view')}>
-                <div className={cn('banner-container')}>
-                    <div className={cn('banner')}>
-                        <div className="name">{damaiProject?.projectName}</div>
-                        <div className="address">{damaiProject?.cityName} {damaiProject?.venueName}</div>
-                        <div className="date">{sessionProject.damaiProjectPerform.performName}</div>
-                        <div className="price">¥{priceProject.priceName}票档x{count}张</div>
-                        {/*<div className="seat">19排24号</div>*/}
-                        <div className={'message flex-middle-x'}>{
-                            ['不支持退', '不支持选座', '不提供发票', '快递票'].map((title, index) => {
-                                return (
-                                    <div className={cn('item flex-middle-x')} key={index}>
-                                        <FontIcon icon="icontishi" width={15} height={15} fillColor={'#f19e4b'}/>
-                                        <span>{title}</span>
-                                    </div>
-                                )
-                            })
-                        }</div>
+            <ChildrenPage location={this.props.location}
+                          pathname={'/order-confirm'}
+                          routes={getRoute('SelectBuyer|SelectAddress')}>
+                <div className={cn('order-confirm-view')}>
+                    <div className={cn('banner-container')}>
+                        <div className={cn('banner')}>
+                            <div className="name">{damaiProject?.projectName}</div>
+                            <div className="address">{damaiProject?.cityName} {damaiProject?.venueName}</div>
+                            <div className="date">{sessionProject.damaiProjectPerform.performName}</div>
+                            <div className="price">¥{priceProject.priceName}票档x{count}张</div>
+                            {/*<div className="seat">19排24号</div>*/}
+                            <div className={'message flex-middle-x'}>{
+                                ['不支持退', '不支持选座', '不提供发票', '快递票'].map((title, index) => {
+                                    return (
+                                        <div className={cn('item flex-middle-x')} key={index}>
+                                            <FontIcon icon="icontishi" width={15} height={15} fillColor={'#f19e4b'}/>
+                                            <span>{title}</span>
+                                        </div>
+                                    )
+                                })
+                            }</div>
+                        </div>
+                    </div>
+                    {this.renderDetailInfo(buyerList)}
+                    <div className="bottom-bar flex-middle-x">
+                        <div className={'price'}>合计：{`${totalPrice === '' ? '-' : totalPrice}`}元</div>
+                        <div className={cn('buy', {'active': totalPrice !== ''})}
+                             onClick={e => this.onClickBuy()}>
+                            下一步
+                        </div>
                     </div>
                 </div>
-                {this.renderDetailInfo(buyerList)}
-                <div className="bottom-bar flex-middle-x">
-                    <div className={'price'}>合计：{`${totalPrice === '' ? '-' : totalPrice}`}元</div>
-                    <div className={cn('buy', {'active': totalPrice !== ''})}
-                         onClick={e => this.onClickBuy()}>
-                        下一步
-                    </div>
-                </div>
-            </div>
+            </ChildrenPage>
         )
     }
 }
