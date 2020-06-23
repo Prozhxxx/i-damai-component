@@ -6,7 +6,9 @@ import style from './index.module.scss';
 class BuyerCell extends React.Component<{
     buyer: BuyerModel,
     className?: string,
-    onClick?: Function
+    onClick?: Function,
+    selectable?: Boolean,
+    active?: Boolean
 }, any>{
 
     coverString(targetString, edgeCount, options={}){
@@ -18,19 +20,24 @@ class BuyerCell extends React.Component<{
         };
         let covers = '';
         if (isMiddle){
-            covers = cover.repeat(targetString.length - (isHemi ? 1 : 2) * edgeCount)
+            covers = cover.repeat(targetString.length - (isHemi ? 1 : 2) * edgeCount);
             return `${targetString.slice(0, edgeCount)}${covers}${targetString.slice(targetString.length - edgeCount)}`
         } else {
-            covers = cover.repeat(edgeCount)
+            covers = cover.repeat(edgeCount);
             return `${covers}${targetString.slice(edgeCount, targetString.length - (isHemi ? 0 : 1) * edgeCount)}${isHemi?'':covers}`
         }
     }
-    
-    render(){
-        const {buyer, className, onClick} = this.props;
 
+    render(){
+        const {buyer, className, onClick, selectable = false, active = false} = this.props;
+        const selectableEle = (
+            <div className={style.iconWrapper}>
+                <FontIcon icon={'iconselectfill'} width={20} height={20} fillColor={active ? '#ff0000': '#000'}/>
+            </div>
+        );
         return (
             <div onClick={e => onClick()} className={cn(style.buyerCell, 'flex-middle-x', className)}>
+                {selectable && selectableEle}
                 <div className={cn(style.left)}>
                     <div className={cn(style.name)}>
                         {this.coverString(buyer.userName, 1, {isMiddle: false, isHemi: true})}

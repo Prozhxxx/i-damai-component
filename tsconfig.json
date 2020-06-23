@@ -18,7 +18,7 @@
       "es6",
       "dom.iterable",
       "scripthost",
-      "es2017"
+      "es2019"
     ],
     "skipLibCheck": false,
     "esModuleInterop": true,

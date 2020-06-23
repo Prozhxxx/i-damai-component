@@ -30,29 +30,17 @@ class Navigator extends React.Component<ConnectedProps<typeof connector> & {
             </div>
         );
         const {leftItem = goBackItem, rightItem, title = '', displayBackItem = true} = navigator;
-        if (leftItem || rightItem){
+        if (displayBackItem){
             return (
                 <div className={classnames(style.navigator, 'flex-middle-x')}>
                     {leftItem}
+                    {displayBackItem && goBackItem}
                     <div className={cn(style.title)}>{title}</div>
-                    {rightItem}
+                    {rightItem ?? <div className={style.placeholder}/>}
                 </div>
             )
         }
-        if(displayBackItem){
-           return (
-               <div className={classnames(style.navigator, 'flex-middle-x')}>
-                   {goBackItem}
-                   <div className={style.title}>{title}</div>
-                   <div className={style.placeholder}/>
-               </div>
-           )
-        }
-        return (
-            <div className={classnames(style.navigator, 'flex-center-x')}>
-                <div className={style.title}>{title}</div>
-            </div>
-        )
+        return null
     }
 }
 

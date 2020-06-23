@@ -62,11 +62,13 @@ class App extends React.Component<any, {
             return title;
         };
         RouterManager.updateNavigatorTitle(getTitle(history.location));
+        RouterManager.updateNavigatorItem(null, null);
         history.listen((
             location,
             action,
         ) => {
-            RouterManager.updateNavigatorTitle(getTitle(location))
+            RouterManager.updateNavigatorTitle(getTitle(location));
+            RouterManager.updateNavigatorItem(null, null);
         });
         this.prepareAccount();
         const setStatePromise = (state) => {
@@ -125,7 +127,7 @@ class App extends React.Component<any, {
                 <Switch>
                     {routes.map(route => {
                         return (
-                            <route.component key={route.path} exact path={route.path}>
+                            <route.component key={route.path} exact={route.exact} path={route.path}>
                             </route.component>
                         )
                     })}

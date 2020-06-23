@@ -34,8 +34,16 @@ export default class RouterManager{
             type: 'UPDATE_UI_NAVIGATOR',
             data: {
                 title,
-                leftItem: null,
-                rightItem: null,
+            }
+        })
+    }
+
+    static updateNavigatorItem(leftItem: React.ReactElement, rightItem: React.ReactElement){
+        GlobalConstant.store.dispatch({
+            type: 'UPDATE_UI_NAVIGATOR',
+            data: {
+                leftItem,
+                rightItem,
             }
         })
     }
@@ -84,66 +92,105 @@ export const pop = RouterManager.pop;
 export const getParams = RouterManager.getParams;
 
 
+const flat = (r, p?) => {
+    p && (r.path = `${p.path}${r.path}`);
+    if (r.children && r.children.length > 0){
+        return [r, ...r.children.flatMap(c => flat(c, r))]
+    }
+    return [r]
+};
+
 export const routes = [{
     path: '/',
     component: HomeView,
     title: '首页',
+    exact: true,
 }, {
     path: '/buyer',
     component: BuyerView,
     title: '购票人',
+    exact: true,
 }, {
     path: '/address',
     component: AddressView,
     title: '地址',
+    exact: true,
 }, {
     path: '/add-buyer',
     component: AddBuyerView,
     title: '添加购票人',
+    exact: true,
 }, {
     path: '/add-address',
     title: '添加地址',
+    exact: true,
     component: AddAddressView,
 }, {
     path: '/performance-detail',
     component: PerformanceDetailView,
     title: '演出详情',
+    exact: true,
 }, {
     path: '/performance-list',
     component: PerformanceListView,
     title: '演出列表',
+    exact: true,
 }, {
     path: '/performance-select',
     component: PerformanceSelectView,
     title: '选择座位',
+    exact: true,
 }, {
     path: '/performance-select-info',
     component: PerformanceSelectInfoView,
     title: '',
+    exact: true,
 }, {
     path: '/invoice-index',
     component: InvoiceIndexView,
     title: '',
+    exact: true,
 }, {
     path: '/invoice-list',
     component: InvoiceListView,
     title: '',
+    exact: true,
 }, {
     path: '/invoice-detail',
     component: InvoiceDetailView,
     title: '',
+    exact: true,
 },{
     path: '/invoice-finish',
     component: InvoiceFinishView,
     title: '',
+    exact: true,
 }, {
     path: '/order-detail',
     component: OrderDetailView,
     title: '订单详情',
+    exact: true,
 }, {
+    name: 'OrderConfirm',
     path: '/order-confirm',
     component: OrderConfirmView,
     title: '确认订单',
-}];
+    exact: false,
+    children: [{
+        path: '/address',
+        component: AddressView,
+        title: '选择地址',
+        exact: false,
+    }, {
+        path: '/buyer',
+        component: BuyerView,
+        title: '选择购票人',
+        exact: false,
+    }]
+}].flatMap(r => flat(r));
 
+
+export const getRoute = (routeName: string) => {
+    return routes.find(route => route.name === routeName)
+}
 

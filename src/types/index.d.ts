@@ -2,6 +2,8 @@ declare module '*.scss';
 declare module '*.css';
 declare module 'AMap'
 
+
+
 interface Window {
     eventTarget: EventTarget;
 }

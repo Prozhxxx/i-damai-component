@@ -3,29 +3,33 @@ import NetworkMine from "@/network/NetworkMine";
 import AddressCell from "@/components/address.cell";
 import {RouteComponentProps, withRouter} from "react-router";
 import cn from "classnames";
-import {pop, push} from "@/util/RouterManager";
+import RouterManager, {pop, push} from "@/util/RouterManager";
 import './index.scss';
 
 
 
 class AddressView extends React.Component<RouteComponentProps<{}, {}, {
-    addressToken
+    addressToken: string,
+    selectable: boolean,
 }>, {
     addressList: AddressModel[],
+    selectable: boolean,
 }>{
 
     private addressToken: string;
     constructor(props) {
         super(props);
         this.state = {
-            addressList: []
+            addressList: [],
+            selectable: false,
         };
         this.addressToken = null;
     }
 
     componentDidMount(): void {
         this.fetchAddressList();
-        const {addressToken} = this.props.location.state;
+        const {addressToken, selectable} = this.props.location.state;
+        this.setState({ selectable })
         this.addressToken = addressToken;
     }
 
@@ -43,12 +47,12 @@ class AddressView extends React.Component<RouteComponentProps<{}, {}, {
 
 
     onClickAddressCell(address){
-        pop(this)
+        pop(this);
         window.eventTarget.dispatchEvent(new CustomEvent(this.addressToken, { 'detail': { address } }))
     }
 
     render(){
-        const {addressList} = this.state;
+        const {addressList, selectable} = this.state;
         return (
             <div className="address-view">
                 <div className={cn('address-list')}>
@@ -57,7 +61,8 @@ class AddressView extends React.Component<RouteComponentProps<{}, {}, {
                             <AddressCell key={address.id}
                                          className="address-cell"
                                          address={address}
-                                         onClick={e => this.onClickAddressCell(address)}/>
+                                         onClick={e => this.onClickAddressCell(address)}
+                                         selectable={selectable}/>
                         )
                     })}
                 </div>

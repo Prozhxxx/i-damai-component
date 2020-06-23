@@ -1,11 +1,13 @@
 import React, {ReactElement} from "react";
 import style from './index.module.scss';
+import FontIcon from "@/components/font.icon";
 import cn from 'classnames';
 
 class AddressCell extends React.Component<{
     className?: string
     address: AddressModel,
-    onClick: Function
+    onClick: Function,
+    selectable?: Boolean,
 }, any>{
 
     constructor(props) {
@@ -15,9 +17,15 @@ class AddressCell extends React.Component<{
     }
 
     render(){
-        const {className, address, onClick} = this.props;
+        const {className, address, onClick, selectable = false} = this.props;
+        const selectableEle = (
+         <div>
+             <FontIcon icon={'iconselectfill'} width={20} height={20}/>
+         </div>
+        );
         return (
             <div onClick={e => onClick()} className={cn(style.addressCell, className)}>
+                {selectable && selectableEle}
                 <div className={cn(style.contect, 'flex-middle-x')}>
                     <div className={style.name}>{address?.name}</div>
                     <div className={style.phone}>{address?.phone}</div>

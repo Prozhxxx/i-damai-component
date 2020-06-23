@@ -1,18 +1,14 @@
 import React, {Fragment} from "react";
 import NetworkTrade from "@/network/NetworkTrade";
 import NetworkMine from "@/network/NetworkMine";
-import {getParams, push} from "@/util/RouterManager";
+import RouterManager, {getParams, getRoute, push} from "@/util/RouterManager";
 import {Route, Switch, withRouter} from 'react-router';
 import FontIcon from "@/components/font.icon";
 import NetworkPerformance from "@/network/NetworkPerformance";
 import cn from 'classnames';
 import UnitTool from "@/tool/UnitTool";
 import StringTool from "@/tool/StringTool";
-import AddressView from "@/views/manage/address.view";
-import AddAddressView from "@/views/manage/add.address.view";
 import './index.scss';
-import BuyerView from "@/views/manage/buyer.view";
-import {navigatorWrapper} from "@/components/navigatorWrapper";
 
 enum DeliveryType {
     NOPAPER = 1,
@@ -45,7 +41,7 @@ class OrderConfirmView extends React.Component<any, {
     performId: string,
     priceId: string,
     count: number,
-    buyer: BuyerModel,
+    buyerList: BuyerModel[],
     performanceDetail: PerformanceDetailModel,
     deliveryTypeVisibleList: number[],
     selectedDeliveryType: DeliveryType,
@@ -61,8 +57,8 @@ class OrderConfirmView extends React.Component<any, {
             performId: null,
             priceId: null,
             count: null,
-            buyer: null,
             address: null,
+            buyerList: [],
             performanceDetail: null,
             deliveryTypeVisibleList: [],
             selectedDeliveryType: DeliveryType.UNKNOWN,
@@ -92,9 +88,9 @@ class OrderConfirmView extends React.Component<any, {
 
         window.eventTarget.addEventListener(this.buyerToken, (e: Event) => {
             const detail = (e as CustomEvent).detail;
-            const {buyer} = detail;
-            console.log(buyer)
-            this.setState({ buyer })
+            const { buyerList } = detail;
+            console.log(buyerList);
+            this.setState({ buyerList })
         });
 
         window.eventTarget.addEventListener(this.addressToken, (e: Event) => {
@@ -131,7 +127,7 @@ class OrderConfirmView extends React.Component<any, {
         return NetworkMine.useParams('openId').buyerList().then(data => {
             if (data.length > 0){
                 this.setState({
-                    buyer: data[0]
+                    buyerList: [data[0]]
                 })
             }
         }, error => {
@@ -183,21 +179,22 @@ class OrderConfirmView extends React.Component<any, {
     onClickAddress(){
         const {addressToken} = this;
         push(this, '/order-confirm/address', {
-            ...getParams(this)
+            ...getParams(this),
         }, { addressToken })
     }
 
     onClickSelectBuyer(){
         const {buyerToken} = this;
+        const {buyerList} = this.state;
         push(this,'/order-confirm/buyer', {
             ...getParams(this)
-        }, { buyerToken });
+        }, { buyerToken, selectable: true, selectBuyerIdList: buyerList.map(({id}) => id)});
     }
 
     onClickBuy(){
         const { sessionProject, priceProject, damaiProject } = this.getPerformSession();
-        const {address, count, selectedDeliveryType, buyer } = this.state;
-        if(buyer === null){
+        const {address, count, selectedDeliveryType, buyerList } = this.state;
+        if(buyerList.length <= 0){
             console.log('buyer 不存在');
             return;
         }
@@ -212,7 +209,7 @@ class OrderConfirmView extends React.Component<any, {
             performId: sessionProject.damaiProjectPerform.performId,
             priceId: priceProject.priceId,
             seatInfo: null,
-            userIds: buyer.id,
+            userIds: buyerList.map(({id}) => id).join(','),
             addressId: address?.id,
             memo: null,
         };
@@ -228,17 +225,21 @@ class OrderConfirmView extends React.Component<any, {
     }
 
 
-    renderDetailInfo(buyer: BuyerModel){
+    renderDetailInfo(buyerList: BuyerModel[]){
         const {selectedDeliveryType, deliveryTypeVisibleList, address, shopList} = this.state;
         const accessWayList = ACCESS_WAY_LIST.filter(({deliveryType}) => deliveryTypeVisibleList.some((type) => type === deliveryType));
 
         let buyerEle = <div className="placeholder">请填写购票信息</div>;
-        if (buyer){
+        if (buyerList.length > 0){
             buyerEle = (
-                <div className="person flex-middle-x">
-                    <div className="name">{buyer.userName}</div>
-                    <div className="phone">{buyer.phone}</div>
-                </div>
+                <>
+                    {buyerList.map(buyer => (
+                        <div key={buyer.id} className="person flex-middle-x">
+                            <div className="name">{buyer.userName}</div>
+                            <div className="phone">{buyer.phone}</div>
+                        </div>
+                    ))}
+                </>
             )
         }
 
@@ -297,18 +298,27 @@ class OrderConfirmView extends React.Component<any, {
         return (
             <Fragment>
                 <div className={cn('container')}>
-                    <div className="title">购票信息<span className="subtitle">（购票前需先填写好个人信息）</span></div>
+                    <div className="title flex-middle-x">
+                        <span>购票信息</span>
+                        <span className="subtitle">（购票前需先填写好个人信息）</span>
+                        <div className="empty"></div>
+                        <div className="add-btn">新增</div>
+                    </div>
                     <div className="content flex-middle-x" onClick={e => {
                         this.onClickSelectBuyer();
                     }}>
-                        <div className={cn('flex-y', 'info')}>
+                        <div className={cn('flex-y', 'buyer-list')}>
                             {
                                 buyerEle
                             }
                         </div>
-                        <div className="icon-wrapper">
-                            <FontIcon icon={'iconcl-icon-right'} className={'icon'}/>
-                        </div>
+                        {
+                             // (
+                                // <div className="icon-wrapper">
+                                //     <FontIcon icon={'iconcl-icon-right'} className={'icon'}/>
+                                // </div>
+                            // )
+                        }
                     </div>
                 </div>
                 <div className={cn('container')}>
@@ -340,18 +350,16 @@ class OrderConfirmView extends React.Component<any, {
     }
 
     renderChildrenRouter(){
+        const orderRoute = getRoute('OrderConfirm');
         return (
             <Switch>
-                <Route path="/order-confirm/address">
-                    <AddressView/>
-                </Route>
-
-                <Route exact path="/order-confirm/buyer">
-                    <BuyerView/>
-                </Route>
-                <Route path="/order-confirm/add-address">
-                    <AddAddressView/>
-                </Route>
+                {orderRoute.children.map(route => {
+                    return (
+                        <route.component key={`${route.path}`}
+                                         path={`${route.path}`}>
+                        </route.component>
+                    )
+                })}
             </Switch>
         )
     }
@@ -362,13 +370,14 @@ class OrderConfirmView extends React.Component<any, {
             return null;
         }
         const { priceProject, damaiProject, sessionProject } = state;
-        const { count, buyer } = this.state
+        const { count, buyerList } = this.state;
 
         const price = priceProject.price*count;
         let totalPrice = '';
         if (!isNaN(price)){
             totalPrice = UnitTool.formatPriceByFen(price);
         }
+        console.log(this.props.location.pathname);
         if (this.props.location.pathname !== '/order-confirm'){
             return this.renderChildrenRouter();
         }
@@ -393,7 +402,7 @@ class OrderConfirmView extends React.Component<any, {
                         }</div>
                     </div>
                 </div>
-                {this.renderDetailInfo(buyer)}
+                {this.renderDetailInfo(buyerList)}
                 <div className="bottom-bar flex-middle-x">
                     <div className={'price'}>合计：{`${totalPrice === '' ? '-' : totalPrice}`}元</div>
                     <div className={cn('buy', {'active': totalPrice !== ''})}
